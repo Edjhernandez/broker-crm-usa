@@ -63,6 +63,7 @@ export async function GET() {
   return NextResponse.json({
     submissionIp: ipAddress,
     submissionIpVersion: ipVersion,
+    submissionIpWithType: `${ipAddress} (${ipVersion})`,
     submissionIpSourceHeader: preferred?.source || "none",
     userAgent: requestHeaders.get("user-agent") || "No disponible",
     acceptLanguage: requestHeaders.get("accept-language") || "No disponible",
