@@ -88,14 +88,14 @@ export default function Home() {
 
       if (!response.ok) {
         return {
-          submissionIp: "No disponible",
+          submissionIp: "not available",
           submissionIpVersion: "unknown",
           submissionIpSourceHeader: "none",
-          userAgent: "No disponible",
-          acceptLanguage: "No disponible",
-          uaPlatform: "No disponible",
-          uaClientHints: "No disponible",
-          uaMobile: "No disponible",
+          userAgent: "not available",
+          acceptLanguage: "not available",
+          uaPlatform: "not available",
+          uaClientHints: "not available",
+          uaMobile: "not available",
           reviewedAtUtc: formatIsoUtc(new Date()),
         };
       }
@@ -113,14 +113,14 @@ export default function Home() {
       };
     } catch {
       return {
-        submissionIp: "No disponible",
+        submissionIp: "not available",
         submissionIpVersion: "unknown",
         submissionIpSourceHeader: "none",
-        userAgent: "No disponible",
-        acceptLanguage: "No disponible",
-        uaPlatform: "No disponible",
-        uaClientHints: "No disponible",
-        uaMobile: "No disponible",
+        userAgent: "not available",
+        acceptLanguage: "not available",
+        uaPlatform: "not available",
+        uaClientHints: "not available",
+        uaMobile: "not available",
         reviewedAtUtc: formatIsoUtc(new Date()),
       };
     }
