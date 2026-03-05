@@ -52,9 +52,9 @@ export async function GET() {
     candidates.find((candidate) => isLikelyIpv6(candidate.value)) ||
     candidates[0];
 
-  const ipAddress = preferred?.value || "No disponible";
+  const ipAddress = preferred?.value || "not available";
   const ipVersion =
-    ipAddress === "No disponible"
+    ipAddress === "not available"
       ? "unknown"
       : isLikelyIpv6(ipAddress)
         ? "IPv6"
@@ -65,11 +65,11 @@ export async function GET() {
     submissionIpVersion: ipVersion,
     submissionIpWithType: `${ipAddress} (${ipVersion})`,
     submissionIpSourceHeader: preferred?.source || "none",
-    userAgent: requestHeaders.get("user-agent") || "No disponible",
-    acceptLanguage: requestHeaders.get("accept-language") || "No disponible",
-    uaPlatform: requestHeaders.get("sec-ch-ua-platform") || "No disponible",
-    uaClientHints: requestHeaders.get("sec-ch-ua") || "No disponible",
-    uaMobile: requestHeaders.get("sec-ch-ua-mobile") || "No disponible",
+    userAgent: requestHeaders.get("user-agent") || "not available",
+    acceptLanguage: requestHeaders.get("accept-language") || "not available",
+    uaPlatform: requestHeaders.get("sec-ch-ua-platform") || "not available",
+    uaClientHints: requestHeaders.get("sec-ch-ua") || "not available",
+    uaMobile: requestHeaders.get("sec-ch-ua-mobile") || "not available",
     reviewedAtUtc: new Date().toISOString(),
     ipv6Preferred: true,
   });
