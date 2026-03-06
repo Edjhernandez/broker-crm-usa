@@ -1,6 +1,14 @@
 import React from "react";
 
-const Card = ({ label, value, change, trend, icon }: any) => (
+interface CardProps {
+  label: string;
+  value: string;
+  change: string;
+  trend: "up" | "down";
+  icon: React.ReactNode;
+}
+
+const Card = ({ label, value, change, trend, icon }: CardProps) => (
   <div className="bg-[#FDFCF8] p-7 rounded-3xl border border-stone-200/60 shadow-sm hover:shadow-md transition-all duration-500 group">
     <div className="flex justify-between items-start mb-6">
       <div className="p-3.5 rounded-2xl bg-stone-50 text-stone-700 border border-stone-100 group-hover:scale-110 group-hover:bg-[#065F46] group-hover:text-white transition-all duration-500 shadow-sm">
