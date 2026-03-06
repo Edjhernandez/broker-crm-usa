@@ -116,32 +116,32 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
               </Link>
             </div>
           </div>
+        </div>
 
-          {errorMessage ? (
-            <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
-              {errorMessage}
-            </p>
-          ) : null}
-
-          <button
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isSubmitting ? "Ingresando..." : "Ingresar"}
-          </button>
-        </form>
-
-        {googleEnabled ? (
-          <button
-            type="button"
-            onClick={handleGoogleLogin}
-            className="mt-3 w-full rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100"
-          >
-            Continuar con Google
-          </button>
+        {errorMessage ? (
+          <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
+            {errorMessage}
+          </p>
         ) : null}
-      </section>
-    </main>
+
+        <button
+          type="submit"
+          disabled={isSubmitting}
+          className="w-full rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
+        >
+          {isSubmitting ? "Ingresando..." : "Ingresar"}
+        </button>
+      </form>
+
+      {googleEnabled ? (
+        <button
+          type="button"
+          onClick={handleGoogleLogin}
+          className="mt-3 w-full rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100"
+        >
+          Continuar con Google
+        </button>
+      ) : null}
+    </>
   );
 }
