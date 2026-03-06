@@ -80,6 +80,18 @@ export default function Home() {
   const formatIsoUtc = (date: Date) => date.toISOString();
 
   const getAuditMetadata = async () => {
+    const makeFallbackMetadata = () => ({
+      submissionIp: "not available",
+      submissionIpVersion: "unknown",
+      submissionIpSourceHeader: "none",
+      userAgent: "not available",
+      acceptLanguage: "not available",
+      uaPlatform: "not available",
+      uaClientHints: "not available",
+      uaMobile: "not available",
+      reviewedAtUtc: formatIsoUtc(new Date()),
+    });
+
     try {
       const response = await fetch("/api/audit-metadata", {
         method: "GET",
@@ -87,17 +99,7 @@ export default function Home() {
       });
 
       if (!response.ok) {
-        return {
-          submissionIp: "not available",
-          submissionIpVersion: "unknown",
-          submissionIpSourceHeader: "none",
-          userAgent: "not available",
-          acceptLanguage: "not available",
-          uaPlatform: "not available",
-          uaClientHints: "not available",
-          uaMobile: "not available",
-          reviewedAtUtc: formatIsoUtc(new Date()),
-        };
+        return makeFallbackMetadata();
       }
 
       return (await response.json()) as {
@@ -112,17 +114,7 @@ export default function Home() {
         reviewedAtUtc: string;
       };
     } catch {
-      return {
-        submissionIp: "not available",
-        submissionIpVersion: "unknown",
-        submissionIpSourceHeader: "none",
-        userAgent: "not available",
-        acceptLanguage: "not available",
-        uaPlatform: "not available",
-        uaClientHints: "not available",
-        uaMobile: "not available",
-        reviewedAtUtc: formatIsoUtc(new Date()),
-      };
+      return makeFallbackMetadata();
     }
   };
 
