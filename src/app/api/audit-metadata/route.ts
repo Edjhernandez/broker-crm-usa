@@ -72,6 +72,6 @@ export async function GET() {
     uaClientHints: requestHeaders.get("sec-ch-ua") || "not available",
     uaMobile: requestHeaders.get("sec-ch-ua-mobile") || "not available",
     reviewedAtUtc: new Date().toISOString(),
-    ipv6Preferred: true,
+    ipv6Preferred: ipVersion === "IPv6",
   });
 }
