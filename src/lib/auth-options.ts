@@ -3,9 +3,20 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const AUTH_USERNAME = process.env.AUTH_USERNAME || "admin@brokercrm.local";
-const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "ChangeMe123!";
+const isDev = process.env.NODE_ENV === "development";
 
+const AUTH_USERNAME =
+  process.env.AUTH_USERNAME ??
+  (isDev ? "dev-only-username" : undefined);
+const AUTH_PASSWORD =
+  process.env.AUTH_PASSWORD ??
+  (isDev ? "dev-only-password" : undefined);
+
+if (!AUTH_USERNAME || !AUTH_PASSWORD) {
+  throw new Error(
+    "AUTH_USERNAME and AUTH_PASSWORD must be set in non-development environments",
+  );
+}
 // A per-startup key used to HMAC inputs before comparison, normalising all
 // values to the same digest length so timingSafeEqual never receives buffers
 // of different lengths and no length information is leaked.
