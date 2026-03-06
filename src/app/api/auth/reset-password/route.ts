@@ -19,10 +19,16 @@ export async function POST(request: Request) {
     // 5. Actualizar la contraseña del usuario en la DB.
     // 6. Eliminar el token de recuperación usado.
 
-    console.log("Password reset simulation for token:", token);
+    // En entorno de desarrollo, simulamos éxito sin aplicar cambios reales.
+    if (process.env.NODE_ENV === "development") {
+      return NextResponse.json({ success: true });
+    }
 
-    // Por ahora simulamos éxito
-    return NextResponse.json({ success: true });
+    // En otros entornos, indicar explícitamente que la lógica de reseteo no está implementada.
+    return NextResponse.json(
+      { message: "Password reset not implemented" },
+      { status: 501 },
+    );
   } catch (error: any) {
     console.error("Reset password API error:", error);
     return NextResponse.json(
