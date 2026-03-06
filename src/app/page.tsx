@@ -25,10 +25,12 @@ export default function Home() {
   return (
     <div className="flex min-h-screen bg-[#FDFCF8]">
       {/* Dynamic Sidebar */}
-      <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      <div className="hidden lg:block">
+        <Sidebar activeView={activeView} setActiveView={setActiveView} />
+      </div>
 
       {/* Main Content Area */}
-      <main className="flex-1 ml-64 min-h-screen p-12 lg:p-16 overflow-y-auto">
+      <main className="flex-1 ml-0 lg:ml-64 min-h-screen p-12 lg:p-16 overflow-y-auto">
         <div className="max-w-7xl mx-auto">
           {renderView()}
         </div>
