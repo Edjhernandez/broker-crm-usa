@@ -85,8 +85,9 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
           </label>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm">Password</label>
+            <label htmlFor="password" className="text-sm">Password</label>
             <input
+              id="password"
               type="password"
               autoComplete="current-password"
               value={password}
