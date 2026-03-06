@@ -31,7 +31,7 @@ export default function LoginPage() {
       });
 
       if (!result?.ok) {
-        setErrorMessage("Credenciales invalidas");
+        setErrorMessage("Credenciales inválidas");
         return;
       }
 
