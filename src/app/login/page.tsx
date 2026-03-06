@@ -80,8 +80,8 @@ export default function LoginPage() {
             />
           </label>
 
-          <label className="flex flex-col gap-1 text-sm">
-            Password
+          <div className="flex flex-col gap-1">
+            <label className="text-sm">Password</label>
             <input
               type="password"
               autoComplete="current-password"
@@ -91,7 +91,15 @@ export default function LoginPage() {
               placeholder="********"
               required
             />
-          </label>
+            <div className="mt-1 flex justify-end">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-zinc-600 hover:text-zinc-900 hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+          </div>
 
           {errorMessage ? (
             <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">

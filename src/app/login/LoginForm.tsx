@@ -3,6 +3,7 @@
 import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
+import Link from "next/link";
 
 interface LoginFormProps {
   googleEnabled: boolean;
@@ -32,8 +33,17 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
         callbackUrl: redirectTarget,
       });
 
+      if (result?.error) {
+        if (result.error === "CredentialsSignin") {
+          setErrorMessage("Usuario o contraseña incorrectos");
+        } else {
+          setErrorMessage("Error al iniciar sesión: " + result.error);
+        }
+        return;
+      }
+
       if (!result?.ok) {
-        setErrorMessage("Credenciales invalidas");
+        setErrorMessage("Ocurrió un error inesperado al iniciar sesión");
         return;
       }
 
@@ -74,8 +84,8 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
             />
           </label>
 
-          <label className="flex flex-col gap-1 text-sm">
-            Password
+          <div className="flex flex-col gap-1">
+            <label className="text-sm">Password</label>
             <input
               type="password"
               autoComplete="current-password"
@@ -85,7 +95,15 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
               placeholder="********"
               required
             />
-          </label>
+            <div className="mt-1 flex justify-end">
+              <Link
+                href="/forgot-password"
+                className="text-xs text-zinc-600 hover:text-zinc-900 hover:underline"
+              >
+                ¿Olvidaste tu contraseña?
+              </Link>
+            </div>
+          </div>
 
           {errorMessage ? (
             <p className="rounded-md border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-700">
