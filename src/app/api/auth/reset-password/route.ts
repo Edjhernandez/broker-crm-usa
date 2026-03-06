@@ -28,9 +28,16 @@ export async function POST(request: Request) {
     // 2. Hashear la nueva contraseña (ej. usando bcrypt).
     // 3. Actualizar la contraseña del usuario en la DB.
 
-    consumeResetToken(token);
+    // En entorno de desarrollo, simulamos éxito sin aplicar cambios reales.
+    if (process.env.NODE_ENV === "development") {
+      return NextResponse.json({ success: true });
+    }
 
-    return NextResponse.json({ success: true });
+    // En otros entornos, indicar explícitamente que la lógica de reseteo no está implementada.
+    return NextResponse.json(
+      { message: "Password reset not implemented" },
+      { status: 501 },
+    );
   } catch (error: any) {
     console.error("Reset password API error:", error);
     return NextResponse.json(

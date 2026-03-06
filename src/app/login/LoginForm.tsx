@@ -9,11 +9,22 @@ interface LoginFormProps {
   googleEnabled: boolean;
 }
 
+function getSafeRedirectPath(
+  url: string | null | undefined,
+  fallback = "/",
+): string {
+  if (url && /^\/(?!\/)/.test(url)) {
+    return url;
+  }
+  return fallback;
+}
+
 export default function LoginForm({ googleEnabled }: LoginFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget =
-    searchParams.get("callbackUrl") || searchParams.get("redirect") || "/";
+  const redirectTarget = getSafeRedirectPath(
+    searchParams.get("callbackUrl") || searchParams.get("redirect"),
+  );
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -47,7 +58,7 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
         return;
       }
 
-      router.replace(result.url ?? redirectTarget);
+      router.replace(getSafeRedirectPath(result.url, redirectTarget));
       router.refresh();
     } catch {
       setErrorMessage("Unable to login right now");
@@ -85,8 +96,9 @@ export default function LoginForm({ googleEnabled }: LoginFormProps) {
           </label>
 
           <div className="flex flex-col gap-1">
-            <label className="text-sm">Password</label>
+            <label htmlFor="password" className="text-sm">Password</label>
             <input
+              id="password"
               type="password"
               autoComplete="current-password"
               value={password}
