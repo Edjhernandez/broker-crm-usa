@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { signOut } from "next-auth/react";
 
 export default function Home() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -9,6 +10,7 @@ export default function Home() {
   const [clientEmail, setClientEmail] = useState("");
   const [policyNumber, setPolicyNumber] = useState("");
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -237,10 +239,35 @@ export default function Home() {
     }
   };
 
+  const handleLogout = async () => {
+    if (isLoggingOut) return;
+
+    setIsLoggingOut(true);
+
+    try {
+      await signOut({
+        redirect: true,
+        callbackUrl: "/login",
+      });
+    } finally {
+      setIsLoggingOut(false);
+    }
+  };
+
   return (
     <main className="min-h-screen bg-zinc-50 p-6 text-zinc-900">
       <section className="mx-auto w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6">
-        <h1 className="text-xl font-semibold">Prueba de campo signature</h1>
+        <div className="flex items-center justify-between gap-3">
+          <h1 className="text-xl font-semibold">Prueba de campo signature</h1>
+          <button
+            type="button"
+            onClick={handleLogout}
+            disabled={isLoggingOut}
+            className="rounded-md border border-zinc-300 px-3 py-2 text-xs font-medium hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
+          >
+            {isLoggingOut ? "Saliendo..." : "Cerrar sesión"}
+          </button>
+        </div>
         <p className="mt-2 text-sm text-zinc-600">
           Formulario demo para generar PDF con datos y firma.
         </p>
@@ -292,10 +319,7 @@ export default function Home() {
             aria-label="Área para firma manuscrita"
             aria-describedby="signature-instructions"
           />
-          <p
-            id="signature-instructions"
-            className="mt-2 text-xs text-zinc-600"
-          >
+          <p id="signature-instructions" className="mt-2 text-xs text-zinc-600">
             Use el mouse, lápiz o el dedo para dibujar su firma en el recuadro
             anterior. Si no puede firmar aquí, continúe y firme el documento por
             otro medio.

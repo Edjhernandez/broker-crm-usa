@@ -20,6 +20,31 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Authentication Setup
+
+This project now uses `next-auth` with:
+
+- Credentials login (`AUTH_USERNAME`, `AUTH_PASSWORD`)
+- Optional Google OAuth (`AUTH_GOOGLE_ID`, `AUTH_GOOGLE_SECRET`)
+
+Create a `.env.local` file with at least:
+
+```env
+NEXTAUTH_SECRET=replace-with-a-long-random-secret
+AUTH_USERNAME=admin@brokercrm.local
+AUTH_PASSWORD=ChangeMe123!
+```
+
+To enable the Google login button in the UI:
+
+```env
+AUTH_GOOGLE_ID=your-google-client-id
+AUTH_GOOGLE_SECRET=your-google-client-secret
+NEXT_PUBLIC_ENABLE_GOOGLE_LOGIN=true
+```
+
+The app protects private routes through `middleware.ts` and redirects unauthenticated users to `/login`.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
