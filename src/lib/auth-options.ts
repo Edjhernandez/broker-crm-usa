@@ -3,15 +3,20 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const AUTH_USERNAME = process.env.AUTH_USERNAME;
-const AUTH_PASSWORD = process.env.AUTH_PASSWORD;
+const isDev = process.env.NODE_ENV === "development";
+
+const AUTH_USERNAME =
+  process.env.AUTH_USERNAME ??
+  (isDev ? "dev-only-username" : undefined);
+const AUTH_PASSWORD =
+  process.env.AUTH_PASSWORD ??
+  (isDev ? "dev-only-password" : undefined);
 
 if (!AUTH_USERNAME || !AUTH_PASSWORD) {
   throw new Error(
-    "AUTH_USERNAME and AUTH_PASSWORD environment variables must be set.",
+    "AUTH_USERNAME and AUTH_PASSWORD must be set in non-development environments",
   );
 }
-
 // A per-startup key used to HMAC inputs before comparison, normalising all
 // values to the same digest length so timingSafeEqual never receives buffers
 // of different lengths and no length information is leaked.
@@ -42,7 +47,10 @@ const providers: NextAuthOptions["providers"] = [
         return null;
       }
 
-      if (!safeEqual(username, AUTH_USERNAME) || !safeEqual(password, AUTH_PASSWORD)) {
+      if (
+        !safeEqual(username, AUTH_USERNAME) ||
+        !safeEqual(password, AUTH_PASSWORD)
+      ) {
         return null;
       }
 
