@@ -1,6 +1,5 @@
 "use client";
 
-import { jsPDF } from "jspdf";
 import { useEffect, useRef, useState } from "react";
 
 export default function Home() {
@@ -125,6 +124,7 @@ export default function Home() {
     setIsGeneratingPdf(true);
 
     try {
+      const { jsPDF } = await import("jspdf");
       const signatureDataUrl = canvas.toDataURL("image/png");
       const auditMetadata = await getAuditMetadata();
       const generatedAt = new Date();
