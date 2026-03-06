@@ -154,7 +154,7 @@ export default function ResetPasswordPage() {
 
         <Suspense
           fallback={
-            <div className="mt-6 text-center text-sm text-zinc-500 text-zinc-900">
+            <div className="mt-6 text-center text-sm text-zinc-500">
               Cargando...
             </div>
           }
