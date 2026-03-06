@@ -1,6 +1,18 @@
+import { timingSafeEqual } from "crypto";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
+
+function safeStringCompare(a: string, b: string): boolean {
+  const bufA = Buffer.from(a);
+  const bufB = Buffer.from(b);
+  const maxLen = Math.max(bufA.length, bufB.length);
+  const paddedA = Buffer.alloc(maxLen);
+  const paddedB = Buffer.alloc(maxLen);
+  bufA.copy(paddedA);
+  bufB.copy(paddedB);
+  return bufA.length === bufB.length && timingSafeEqual(paddedA, paddedB);
+}
 
 const DEFAULT_LOGIN_USERNAME = "admin@brokercrm.local";
 const DEFAULT_LOGIN_PASSWORD = "ChangeMe123!";
@@ -33,7 +45,10 @@ const providers: NextAuthOptions["providers"] = [
 
       const expectedUsername = envUsername ?? DEFAULT_LOGIN_USERNAME;
       const expectedPassword = envPassword ?? DEFAULT_LOGIN_PASSWORD;
-      if (username !== expectedUsername || password !== expectedPassword) {
+      if (
+        !safeStringCompare(username, expectedUsername) ||
+        !safeStringCompare(password, expectedPassword)
+      ) {
         return null;
       }
 
