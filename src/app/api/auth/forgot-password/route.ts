@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { Resend } from "resend";
+import { createResetToken } from "@/lib/passwordResetTokens";
 
 const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
 
@@ -22,11 +23,8 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: true, simulated: true });
     }
 
-    // Nota: Deberías validar si el email existe en tu base de datos aquí.
-    // Deberías generar un token único y guardarlo en la DB antes de enviar el correo.
-
-    // Simulación de envío de correo
-    const resetUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/reset-password?token=DUMMY_TOKEN`;
+    const token = createResetToken(email);
+    const resetUrl = `${process.env.NEXTAUTH_URL || "http://localhost:3000"}/reset-password?token=${token}`;
 
     await resend.emails.send({
       from: "Broker CRM <no-reply@brokercrm.local>",
