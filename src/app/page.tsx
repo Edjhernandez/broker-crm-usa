@@ -293,7 +293,17 @@ export default function Home() {
             onPointerMove={handlePointerMove}
             onPointerUp={finishDrawing}
             onPointerLeave={finishDrawing}
+            aria-label="Área para firma manuscrita"
+            aria-describedby="signature-instructions"
           />
+          <p
+            id="signature-instructions"
+            className="mt-2 text-xs text-zinc-600"
+          >
+            Use el mouse, lápiz o el dedo para dibujar su firma en el recuadro
+            anterior. Si no puede firmar aquí, continúe y firme el documento por
+            otro medio.
+          </p>
         </div>
 
         <div className="mt-4 flex gap-3">
