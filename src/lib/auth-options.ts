@@ -55,11 +55,21 @@ if (process.env.AUTH_GOOGLE_ID && process.env.AUTH_GOOGLE_SECRET) {
   );
 }
 
+const authSecret =
+  process.env.NEXTAUTH_SECRET ??
+  process.env.AUTH_SECRET ??
+  (process.env.NODE_ENV === "development"
+    ? "dev-only-change-this-secret"
+    : undefined);
+
+if (!authSecret) {
+  throw new Error(
+    "NEXTAUTH_SECRET or AUTH_SECRET must be set in non-development environments",
+  );
+}
+
 export const authOptions: NextAuthOptions = {
-  secret:
-    process.env.NEXTAUTH_SECRET ??
-    process.env.AUTH_SECRET ??
-    "dev-only-change-this-secret",
+  secret: authSecret,
   pages: {
     signIn: "/login",
   },
