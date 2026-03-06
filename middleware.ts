@@ -10,9 +10,9 @@ export default withAuth({
 
       if (
         pathname === "/login" ||
-        pathname.startsWith("/api/auth") ||
-        pathname.startsWith("/forgot-password") ||
-        pathname.startsWith("/reset-password")
+        pathname === "/forgot-password" ||
+        pathname === "/reset-password" ||
+        pathname.startsWith("/api/auth")
       ) {
         return true;
       }
