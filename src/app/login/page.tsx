@@ -38,7 +38,7 @@ export default function LoginPage() {
       router.replace(result.url ?? redirectTarget);
       router.refresh();
     } catch {
-      setErrorMessage("Unable to login right now");
+      setErrorMessage("No es posible iniciar sesión en este momento");
     } finally {
       setIsSubmitting(false);
     }
