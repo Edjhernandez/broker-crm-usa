@@ -83,7 +83,7 @@ export const DashboardView = () => {
             Fecha Actual
           </p>
           <p className="text-stone-900 font-bold bg-white px-4 py-2 rounded-xl mt-1 border border-stone-100 shadow-sm">
-            6 Mar 2026
+            {new Date().toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })}
           </p>
         </div>
       </header>
