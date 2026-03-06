@@ -20,11 +20,19 @@ const providers: NextAuthOptions["providers"] = [
         return null;
       }
 
-      const expectedUsername =
-        process.env.AUTH_USERNAME ?? DEFAULT_LOGIN_USERNAME;
-      const expectedPassword =
-        process.env.AUTH_PASSWORD ?? DEFAULT_LOGIN_PASSWORD;
+      const isDev = process.env.NODE_ENV === "development";
+      const envUsername = process.env.AUTH_USERNAME;
+      const envPassword = process.env.AUTH_PASSWORD;
 
+      if (!isDev && (!envUsername || !envPassword)) {
+        console.error(
+          "AUTH_USERNAME and AUTH_PASSWORD must be set in non-development environments.",
+        );
+        return null;
+      }
+
+      const expectedUsername = envUsername ?? DEFAULT_LOGIN_USERNAME;
+      const expectedPassword = envPassword ?? DEFAULT_LOGIN_PASSWORD;
       if (username !== expectedUsername || password !== expectedPassword) {
         return null;
       }
