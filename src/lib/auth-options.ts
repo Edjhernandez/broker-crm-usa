@@ -3,14 +3,8 @@ import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-const AUTH_USERNAME = process.env.AUTH_USERNAME;
-const AUTH_PASSWORD = process.env.AUTH_PASSWORD;
-
-if (!AUTH_USERNAME || !AUTH_PASSWORD) {
-  throw new Error(
-    "AUTH_USERNAME and AUTH_PASSWORD environment variables must be set.",
-  );
-}
+const AUTH_USERNAME = process.env.AUTH_USERNAME || "admin@brokercrm.local";
+const AUTH_PASSWORD = process.env.AUTH_PASSWORD || "ChangeMe123!";
 
 // A per-startup key used to HMAC inputs before comparison, normalising all
 // values to the same digest length so timingSafeEqual never receives buffers
@@ -42,7 +36,10 @@ const providers: NextAuthOptions["providers"] = [
         return null;
       }
 
-      if (!safeEqual(username, AUTH_USERNAME) || !safeEqual(password, AUTH_PASSWORD)) {
+      if (
+        !safeEqual(username, AUTH_USERNAME) ||
+        !safeEqual(password, AUTH_PASSWORD)
+      ) {
         return null;
       }
 
