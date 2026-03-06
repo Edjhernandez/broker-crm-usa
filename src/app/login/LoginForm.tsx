@@ -1,29 +1,23 @@
-import { authOptions } from "@/lib/auth-options";
-import LoginForm from "./LoginForm";
+"use client";
 
-function getSafeRedirectPath(
-  url: string | null | undefined,
-  fallback = "/",
-): string {
-  if (url && /^\/(?!\/)/.test(url)) {
-    return url;
-  }
-  return fallback;
+import { FormEvent, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { signIn } from "next-auth/react";
+
+interface LoginFormProps {
+  googleEnabled: boolean;
 }
 
-export default function LoginPage() {
+export default function LoginForm({ googleEnabled }: LoginFormProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget = getSafeRedirectPath(
-    searchParams.get("callbackUrl") || searchParams.get("redirect"),
-  );
+  const redirectTarget =
+    searchParams.get("callbackUrl") || searchParams.get("redirect") || "/";
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const isGoogleLoginEnabled =
-    process.env.NEXT_PUBLIC_ENABLE_GOOGLE_LOGIN === "true";
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -39,14 +33,14 @@ export default function LoginPage() {
       });
 
       if (!result?.ok) {
-        setErrorMessage("Credenciales inválidas");
+        setErrorMessage("Credenciales invalidas");
         return;
       }
 
-      router.replace(getSafeRedirectPath(result.url, redirectTarget));
+      router.replace(result.url ?? redirectTarget);
       router.refresh();
     } catch {
-      setErrorMessage("No es posible iniciar sesión en este momento");
+      setErrorMessage("Unable to login right now");
     } finally {
       setIsSubmitting(false);
     }
@@ -63,7 +57,7 @@ export default function LoginPage() {
       <section className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">Broker CRM Login</h1>
         <p className="mt-2 text-sm text-zinc-600">
-          Inicia sesión para acceder al formulario.
+          Inicia sesion para acceder al formulario.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
@@ -108,7 +102,7 @@ export default function LoginPage() {
           </button>
         </form>
 
-        {isGoogleLoginEnabled ? (
+        {googleEnabled ? (
           <button
             type="button"
             onClick={handleGoogleLogin}
@@ -116,12 +110,7 @@ export default function LoginPage() {
           >
             Continuar con Google
           </button>
-        ) : (
-          <p className="mt-3 text-xs text-zinc-500">
-            Google OAuth deshabilitado. Define
-            NEXT_PUBLIC_ENABLE_GOOGLE_LOGIN=true para mostrarlo.
-          </p>
-        )}
+        ) : null}
       </section>
     </main>
   );
