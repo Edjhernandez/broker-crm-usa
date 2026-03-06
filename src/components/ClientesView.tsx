@@ -144,7 +144,7 @@ export const ClientesView = () => {
                   </span>
                 </td>
                 <td className="px-8 py-5 text-right">
-                  <button className="p-2 hover:bg-white rounded-lg border border-transparent hover:border-stone-200 text-stone-400 hover:text-[#065F46] transition-all shadow-none hover:shadow-sm">
+                  <button aria-label="Ver detalles" className="p-2 hover:bg-white rounded-lg border border-transparent hover:border-stone-200 text-stone-400 hover:text-[#065F46] transition-all shadow-none hover:shadow-sm">
                     <svg
                       width="18"
                       height="18"
@@ -159,7 +159,7 @@ export const ClientesView = () => {
                       <circle cx="12" cy="12" r="3" />
                     </svg>
                   </button>
-                  <button className="p-2 hover:bg-white rounded-lg border border-transparent hover:border-stone-200 text-stone-400 hover:text-[#065F46] transition-all shadow-none hover:shadow-sm ml-1">
+                  <button aria-label="Editar cliente" className="p-2 hover:bg-white rounded-lg border border-transparent hover:border-stone-200 text-stone-400 hover:text-[#065F46] transition-all shadow-none hover:shadow-sm ml-1">
                     <svg
                       width="18"
                       height="18"
