@@ -15,7 +15,8 @@ const normalizeIp = (raw: string) => {
     return value.slice(1, value.indexOf("]"));
   }
 
-  if (!isLikelyIpv6(value) && value.includes(":")) {
+  // Strip port from IPv4 addresses like "203.0.113.10:1234"
+  if (/^\d{1,3}(?:\.\d{1,3}){3}:\d{1,5}$/.test(value)) {
     return value.split(":")[0];
   }
 
