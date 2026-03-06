@@ -232,10 +232,13 @@ export default function Home() {
         "FAST",
       );
 
-      const safeName = (clientName || "client")
-        .trim()
-        .replace(/\s+/g, "-")
-        .toLowerCase();
+      const baseName = (clientName || "client").trim().toLowerCase();
+      const safeName =
+        baseName
+          .replace(/\s+/g, "-") // normalize whitespace to dashes
+          .replace(/[^a-z0-9-]/g, "") // remove unsafe characters
+          .replace(/-+/g, "-") // collapse multiple dashes
+          .replace(/^-+|-+$/g, "") || "client"; // trim dashes and ensure non-empty
       pdf.save(`signature-form-${safeName}.pdf`);
     } finally {
       setIsGeneratingPdf(false);
