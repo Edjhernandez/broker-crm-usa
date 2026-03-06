@@ -4,11 +4,22 @@ import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
+function getSafeRedirectPath(
+  url: string | null | undefined,
+  fallback = "/",
+): string {
+  if (url && /^\/(?!\/)/.test(url)) {
+    return url;
+  }
+  return fallback;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget =
-    searchParams.get("callbackUrl") || searchParams.get("redirect") || "/";
+  const redirectTarget = getSafeRedirectPath(
+    searchParams.get("callbackUrl") || searchParams.get("redirect"),
+  );
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -31,14 +42,14 @@ export default function LoginPage() {
       });
 
       if (!result?.ok) {
-        setErrorMessage("Credenciales invalidas");
+        setErrorMessage("Credenciales inválidas");
         return;
       }
 
-      router.replace(result.url ?? redirectTarget);
+      router.replace(getSafeRedirectPath(result.url, redirectTarget));
       router.refresh();
     } catch {
-      setErrorMessage("Unable to login right now");
+      setErrorMessage("No es posible iniciar sesión en este momento");
     } finally {
       setIsSubmitting(false);
     }
@@ -55,7 +66,7 @@ export default function LoginPage() {
       <section className="w-full max-w-md rounded-xl border border-zinc-200 bg-white p-6 shadow-sm">
         <h1 className="text-xl font-semibold">Broker CRM Login</h1>
         <p className="mt-2 text-sm text-zinc-600">
-          Inicia sesion para acceder al formulario.
+          Inicia sesión para acceder al formulario.
         </p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">

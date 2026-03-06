@@ -1,21 +1,31 @@
-import { timingSafeEqual } from "crypto";
+import { createHmac, randomBytes, timingSafeEqual } from "crypto";
 import type { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import GoogleProvider from "next-auth/providers/google";
 
-function safeStringCompare(a: string, b: string): boolean {
-  const bufA = Buffer.from(a);
-  const bufB = Buffer.from(b);
-  const maxLen = Math.max(bufA.length, bufB.length);
-  const paddedA = Buffer.alloc(maxLen);
-  const paddedB = Buffer.alloc(maxLen);
-  bufA.copy(paddedA);
-  bufB.copy(paddedB);
-  return bufA.length === bufB.length && timingSafeEqual(paddedA, paddedB);
+const AUTH_USERNAME = process.env.AUTH_USERNAME;
+const AUTH_PASSWORD = process.env.AUTH_PASSWORD;
+
+if (!AUTH_USERNAME || !AUTH_PASSWORD) {
+  throw new Error(
+    "AUTH_USERNAME and AUTH_PASSWORD environment variables must be set.",
+  );
 }
 
-const DEFAULT_LOGIN_USERNAME = "admin@brokercrm.local";
-const DEFAULT_LOGIN_PASSWORD = "ChangeMe123!";
+// A per-startup key used to HMAC inputs before comparison, normalising all
+// values to the same digest length so timingSafeEqual never receives buffers
+// of different lengths and no length information is leaked.
+const COMPARISON_KEY = randomBytes(32);
+
+function safeEqual(a: string, b: string): boolean {
+  const hmacA = createHmac("sha256", COMPARISON_KEY)
+    .update(Buffer.from(a, "utf8"))
+    .digest();
+  const hmacB = createHmac("sha256", COMPARISON_KEY)
+    .update(Buffer.from(b, "utf8"))
+    .digest();
+  return timingSafeEqual(hmacA, hmacB);
+}
 
 const providers: NextAuthOptions["providers"] = [
   CredentialsProvider({
@@ -32,23 +42,7 @@ const providers: NextAuthOptions["providers"] = [
         return null;
       }
 
-      const isDev = process.env.NODE_ENV === "development";
-      const envUsername = process.env.AUTH_USERNAME;
-      const envPassword = process.env.AUTH_PASSWORD;
-
-      if (!isDev && (!envUsername || !envPassword)) {
-        console.error(
-          "AUTH_USERNAME and AUTH_PASSWORD must be set in non-development environments.",
-        );
-        return null;
-      }
-
-      const expectedUsername = envUsername ?? DEFAULT_LOGIN_USERNAME;
-      const expectedPassword = envPassword ?? DEFAULT_LOGIN_PASSWORD;
-      if (
-        !safeStringCompare(username, expectedUsername) ||
-        !safeStringCompare(password, expectedPassword)
-      ) {
+      if (!safeEqual(username, AUTH_USERNAME) || !safeEqual(password, AUTH_PASSWORD)) {
         return null;
       }
 
