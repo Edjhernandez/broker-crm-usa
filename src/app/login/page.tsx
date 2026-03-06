@@ -4,11 +4,22 @@ import { FormEvent, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { signIn } from "next-auth/react";
 
+function getSafeRedirectPath(
+  url: string | null | undefined,
+  fallback = "/",
+): string {
+  if (url && /^\/(?!\/)/.test(url)) {
+    return url;
+  }
+  return fallback;
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const redirectTarget =
-    searchParams.get("callbackUrl") || searchParams.get("redirect") || "/";
+  const redirectTarget = getSafeRedirectPath(
+    searchParams.get("callbackUrl") || searchParams.get("redirect"),
+  );
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +46,7 @@ export default function LoginPage() {
         return;
       }
 
-      router.replace(result.url ?? redirectTarget);
+      router.replace(getSafeRedirectPath(result.url, redirectTarget));
       router.refresh();
     } catch {
       setErrorMessage("No es posible iniciar sesión en este momento");
