@@ -57,7 +57,7 @@ const Chart = () => {
               <div className="absolute top-0 left-0 w-full h-1/2 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
             </div>
             <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">
-              {["Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"][i]}
+              {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"][i]}
             </span>
           </div>
         ))}
