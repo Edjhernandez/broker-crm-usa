@@ -1,349 +1,38 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { signOut } from "next-auth/react";
+import { useState } from "react";
+import { Sidebar, ViewType } from "@/components/Sidebar";
+import { DashboardView } from "@/components/DashboardView";
+import { ClientesView } from "@/components/ClientesView";
+import { DocumentosView } from "@/components/DocumentosView";
 
 export default function Home() {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
-  const isDrawingRef = useRef(false);
-  const [clientName, setClientName] = useState("");
-  const [clientEmail, setClientEmail] = useState("");
-  const [policyNumber, setPolicyNumber] = useState("");
-  const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
-  const [isLoggingOut, setIsLoggingOut] = useState(false);
+  const [activeView, setActiveView] = useState<ViewType>("dashboard");
 
-  useEffect(() => {
-    const canvas = canvasRef.current;
-
-    if (!canvas) return;
-
-    const context = canvas.getContext("2d");
-    if (!context) return;
-
-    context.lineCap = "round";
-    context.lineJoin = "round";
-    context.lineWidth = 2;
-    context.strokeStyle = "#111827";
-  }, []);
-
-  const getCanvasPosition = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    if (!canvas) return { x: 0, y: 0 };
-
-    const rect = canvas.getBoundingClientRect();
-    const scaleX = canvas.width / rect.width;
-    const scaleY = canvas.height / rect.height;
-
-    return {
-      x: (event.clientX - rect.left) * scaleX,
-      y: (event.clientY - rect.top) * scaleY,
-    };
-  };
-
-  const handlePointerDown = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
-
-    isDrawingRef.current = true;
-    canvas.setPointerCapture(event.pointerId);
-
-    const { x, y } = getCanvasPosition(event);
-    context.beginPath();
-    context.moveTo(x, y);
-  };
-
-  const handlePointerMove = (event: React.PointerEvent<HTMLCanvasElement>) => {
-    if (!isDrawingRef.current) return;
-
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
-
-    const { x, y } = getCanvasPosition(event);
-    context.lineTo(x, y);
-    context.stroke();
-  };
-
-  const finishDrawing = () => {
-    if (!isDrawingRef.current) return;
-    isDrawingRef.current = false;
-  };
-
-  const clearSignature = () => {
-    const canvas = canvasRef.current;
-    const context = canvas?.getContext("2d");
-    if (!canvas || !context) return;
-
-    context.clearRect(0, 0, canvas.width, canvas.height);
-  };
-
-  const formatIsoUtc = (date: Date) => date.toISOString();
-
-  const getAuditMetadata = async () => {
-    const makeFallbackMetadata = () => ({
-      submissionIp: "not available",
-      submissionIpVersion: "unknown",
-      submissionIpSourceHeader: "none",
-      userAgent: "not available",
-      acceptLanguage: "not available",
-      uaPlatform: "not available",
-      uaClientHints: "not available",
-      uaMobile: "not available",
-      reviewedAtUtc: formatIsoUtc(new Date()),
-    });
-
-    try {
-      const response = await fetch("/api/audit-metadata", {
-        method: "GET",
-        cache: "no-store",
-      });
-
-      if (!response.ok) {
-        return makeFallbackMetadata();
-      }
-
-      return (await response.json()) as {
-        submissionIp: string;
-        submissionIpVersion: string;
-        submissionIpSourceHeader: string;
-        userAgent: string;
-        acceptLanguage: string;
-        uaPlatform: string;
-        uaClientHints: string;
-        uaMobile: string;
-        reviewedAtUtc: string;
-      };
-    } catch {
-      return makeFallbackMetadata();
-    }
-  };
-
-  const generatePdf = async () => {
-    const canvas = canvasRef.current;
-    if (!canvas || isGeneratingPdf) return;
-
-    setIsGeneratingPdf(true);
-
-    try {
-      const { jsPDF } = await import("jspdf");
-      const signatureDataUrl = canvas.toDataURL("image/png");
-      const auditMetadata = await getAuditMetadata();
-      const generatedAt = new Date();
-      const pdf = new jsPDF({ unit: "mm", format: "a4" });
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(16);
-      pdf.text("Broker CRM - Signature Form", 20, 20);
-
-      pdf.setFont("helvetica", "normal");
-      pdf.setFontSize(11);
-      pdf.text(`Client Name: ${clientName || "-"}`, 20, 36);
-      pdf.text(`Client Email: ${clientEmail || "-"}`, 20, 44);
-      pdf.text(`Policy Number: ${policyNumber || "-"}`, 20, 52);
-
-      pdf.setFont("helvetica", "bold");
-      pdf.setFontSize(10);
-      pdf.text("Submission IP:", 20, 60);
-      pdf.text("Date Application Reviewed:", 110, 60);
-
-      pdf.setFont("helvetica", "normal");
-      const ipLines = pdf.splitTextToSize(auditMetadata.submissionIp, 80);
-      pdf.text(ipLines, 20, 66);
-      pdf.text(auditMetadata.reviewedAtUtc, 110, 66);
-      pdf.text(`Date PDF Generated: ${formatIsoUtc(generatedAt)}`, 20, 76);
-      pdf.text(
-        `IP Source: ${auditMetadata.submissionIpSourceHeader} (${auditMetadata.submissionIpVersion})`,
-        20,
-        82,
-      );
-
-      pdf.setFont("helvetica", "bold");
-      pdf.text("User-Agent:", 20, 88);
-      pdf.setFont("helvetica", "normal");
-      const userAgentLines = pdf.splitTextToSize(auditMetadata.userAgent, 170);
-      pdf.text(userAgentLines, 20, 94);
-
-      const acceptLanguageTitleY = 94 + userAgentLines.length * 4 + 4;
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Accept-Language:", 20, acceptLanguageTitleY);
-      pdf.setFont("helvetica", "normal");
-      const acceptLanguageLines = pdf.splitTextToSize(
-        auditMetadata.acceptLanguage,
-        170,
-      );
-      const acceptLanguageValueY = acceptLanguageTitleY + 6;
-      pdf.text(acceptLanguageLines, 20, acceptLanguageValueY);
-
-      const uaPlatformTitleY =
-        acceptLanguageValueY + acceptLanguageLines.length * 4 + 4;
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Sec-CH-UA-Platform:", 20, uaPlatformTitleY);
-      pdf.setFont("helvetica", "normal");
-      const uaPlatformLines = pdf.splitTextToSize(
-        auditMetadata.uaPlatform,
-        170,
-      );
-      const uaPlatformValueY = uaPlatformTitleY + 6;
-      pdf.text(uaPlatformLines, 20, uaPlatformValueY);
-
-      const uaClientHintsTitleY =
-        uaPlatformValueY + uaPlatformLines.length * 4 + 4;
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Sec-CH-UA:", 20, uaClientHintsTitleY);
-      pdf.setFont("helvetica", "normal");
-      const uaClientHintsLines = pdf.splitTextToSize(
-        auditMetadata.uaClientHints,
-        170,
-      );
-      const uaClientHintsValueY = uaClientHintsTitleY + 6;
-      pdf.text(uaClientHintsLines, 20, uaClientHintsValueY);
-
-      const uaMobileTitleY =
-        uaClientHintsValueY + uaClientHintsLines.length * 4 + 4;
-      pdf.setFont("helvetica", "bold");
-      pdf.text("Sec-CH-UA-Mobile:", 20, uaMobileTitleY);
-      pdf.setFont("helvetica", "normal");
-      const uaMobileLines = pdf.splitTextToSize(auditMetadata.uaMobile, 170);
-      const uaMobileValueY = uaMobileTitleY + 6;
-      pdf.text(uaMobileLines, 20, uaMobileValueY);
-
-      const signatureTop = uaMobileValueY + uaMobileLines.length * 4 + 8;
-
-      pdf.setDrawColor(180);
-      pdf.rect(20, signatureTop, 170, 55);
-      pdf.setFontSize(10);
-      pdf.text("Signature", 22, signatureTop + 5);
-
-      pdf.addImage(
-        signatureDataUrl,
-        "PNG",
-        24,
-        signatureTop + 8,
-        162,
-        43,
-        undefined,
-        "FAST",
-      );
-
-      const baseName = (clientName || "client").trim().toLowerCase();
-      const safeName =
-        baseName
-          .replace(/\s+/g, "-") // normalize whitespace to dashes
-          .replace(/[^a-z0-9-]/g, "") // remove unsafe characters
-          .replace(/-+/g, "-") // collapse multiple dashes
-          .replace(/^-+|-+$/g, "") || "client"; // trim dashes and ensure non-empty
-      pdf.save(`signature-form-${safeName}.pdf`);
-    } finally {
-      setIsGeneratingPdf(false);
-    }
-  };
-
-  const handleLogout = async () => {
-    if (isLoggingOut) return;
-
-    setIsLoggingOut(true);
-
-    try {
-      await signOut({
-        redirect: true,
-        callbackUrl: "/login",
-      });
-    } finally {
-      setIsLoggingOut(false);
+  const renderView = () => {
+    switch (activeView) {
+      case "dashboard":
+        return <DashboardView />;
+      case "clientes":
+        return <ClientesView />;
+      case "documentos":
+        return <DocumentosView />;
+      default:
+        return <DashboardView />;
     }
   };
 
   return (
-    <main className="min-h-screen bg-zinc-50 p-6 text-zinc-900">
-      <section className="mx-auto w-full max-w-3xl rounded-xl border border-zinc-200 bg-white p-6">
-        <div className="flex items-center justify-between gap-3">
-          <h1 className="text-xl font-semibold">Prueba de campo signature</h1>
-          <button
-            type="button"
-            onClick={handleLogout}
-            disabled={isLoggingOut}
-            className="rounded-md border border-zinc-300 px-3 py-2 text-xs font-medium hover:bg-zinc-100 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isLoggingOut ? "Saliendo..." : "Cerrar sesión"}
-          </button>
-        </div>
-        <p className="mt-2 text-sm text-zinc-600">
-          Formulario demo para generar PDF con datos y firma.
-        </p>
+    <div className="flex min-h-screen bg-[#FDFCF8]">
+      {/* Dynamic Sidebar */}
+      <Sidebar activeView={activeView} setActiveView={setActiveView} />
 
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <label className="flex flex-col gap-1 text-sm">
-            Nombre cliente
-            <input
-              type="text"
-              value={clientName}
-              onChange={(event) => setClientName(event.target.value)}
-              className="rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-              placeholder="Ej. Juan Pérez"
-            />
-          </label>
-          <label className="flex flex-col gap-1 text-sm">
-            Email cliente
-            <input
-              type="email"
-              value={clientEmail}
-              onChange={(event) => setClientEmail(event.target.value)}
-              className="rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-              placeholder="Ej. cliente@email.com"
-            />
-          </label>
-          <label className="flex flex-col gap-1 text-sm sm:col-span-2">
-            Número de póliza
-            <input
-              type="text"
-              value={policyNumber}
-              onChange={(event) => setPolicyNumber(event.target.value)}
-              className="rounded-md border border-zinc-300 px-3 py-2 outline-none focus:border-zinc-500"
-              placeholder="Ej. POL-2026-001"
-            />
-          </label>
+      {/* Main Content Area */}
+      <main className="flex-1 ml-64 min-h-screen p-12 lg:p-16 overflow-y-auto">
+        <div className="max-w-7xl mx-auto">
+          {renderView()}
         </div>
-
-        <div className="mt-4 rounded-lg border border-dashed border-zinc-300 bg-zinc-50 p-3">
-          <canvas
-            ref={canvasRef}
-            width={900}
-            height={260}
-            className="h-56 w-full rounded-md border border-zinc-300 bg-white touch-none"
-            onPointerDown={handlePointerDown}
-            onPointerMove={handlePointerMove}
-            onPointerUp={finishDrawing}
-            onPointerLeave={finishDrawing}
-            onPointerCancel={finishDrawing}
-            aria-label="Área para firma manuscrita"
-            aria-describedby="signature-instructions"
-          />
-          <p id="signature-instructions" className="mt-2 text-xs text-zinc-600">
-            Use el mouse, lápiz o el dedo para dibujar su firma en el recuadro
-            anterior. Si no puede firmar aquí, continúe y firme el documento por
-            otro medio.
-          </p>
-        </div>
-
-        <div className="mt-4 flex gap-3">
-          <button
-            type="button"
-            onClick={clearSignature}
-            className="rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium hover:bg-zinc-100"
-          >
-            Limpiar firma
-          </button>
-          <button
-            type="button"
-            onClick={generatePdf}
-            disabled={isGeneratingPdf}
-            className="rounded-md bg-zinc-900 px-4 py-2 text-sm font-medium text-white hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-60"
-          >
-            {isGeneratingPdf ? "Generando..." : "Generar PDF"}
-          </button>
-        </div>
-      </section>
-    </main>
+      </main>
+    </div>
   );
 }
