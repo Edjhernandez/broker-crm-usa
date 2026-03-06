@@ -32,8 +32,10 @@ Create a `.env.local` file with at least:
 ```env
 NEXTAUTH_SECRET=replace-with-a-long-random-secret
 AUTH_USERNAME=admin@brokercrm.local
-AUTH_PASSWORD=ChangeMe123!
+AUTH_PASSWORD=your-strong-unique-password
 ```
+
+> **Security note:** Replace `your-strong-unique-password` with a long, random, unique password before deploying. Never use a predictable or reused password in any environment.
 
 To enable the Google login button in the UI:
 
