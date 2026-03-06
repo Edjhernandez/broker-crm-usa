@@ -293,6 +293,7 @@ export default function Home() {
             onPointerMove={handlePointerMove}
             onPointerUp={finishDrawing}
             onPointerLeave={finishDrawing}
+            onPointerCancel={finishDrawing}
             aria-label="Área para firma manuscrita"
             aria-describedby="signature-instructions"
           />
