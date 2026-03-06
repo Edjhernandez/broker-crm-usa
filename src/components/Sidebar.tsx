@@ -79,6 +79,39 @@ const Icons = {
       <path d="M12 5v14" />
     </svg>
   ),
+  Settings: () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
+      <circle cx="12" cy="12" r="3" />
+    </svg>
+  ),
+  Logout: () => (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="20"
+      height="20"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <polyline points="16 17 21 12 16 7" />
+      <line x1="21" y1="12" x2="9" y2="12" />
+    </svg>
+  ),
 };
 
 export const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
@@ -127,14 +160,28 @@ export const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
           ))}
         </nav>
 
-        <div className="pt-8 border-t border-white/5 mt-auto">
-          <button className="w-full bg-[#059669] hover:bg-[#047857] text-[#FDFCF8] px-4 py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-sm font-semibold text-sm mb-6 active:scale-[0.98]">
+        <div className="pt-8 border-t border-white/5 mt-auto space-y-2">
+          <button className="w-full bg-[#059669] hover:bg-[#047857] text-[#FDFCF8] px-4 py-4 rounded-xl flex items-center justify-center gap-2 transition-all duration-300 shadow-sm font-semibold text-sm mb-4 active:scale-[0.98]">
             <Icons.Add />
             <span>Agregar Cliente</span>
           </button>
 
-          <div className="px-4 py-3 flex items-center gap-3 text-stone-500 text-xs">
-            <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+          <button className="w-full text-stone-400 hover:bg-white/5 hover:text-[#FDFCF8] px-4 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 group font-medium text-sm">
+            <span className="text-stone-500 group-hover:text-stone-300">
+              <Icons.Settings />
+            </span>
+            <span>Ajustes</span>
+          </button>
+
+          <button className="w-full text-stone-400 hover:bg-rose-500/10 hover:text-rose-400 px-4 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 group font-medium text-sm">
+            <span className="text-stone-500 group-hover:text-rose-400">
+              <Icons.Logout />
+            </span>
+            <span>Cerrar Sesión</span>
+          </button>
+
+          <div className="px-4 py-3 flex items-center gap-3 text-stone-500 text-[10px] uppercase tracking-widest font-bold">
+            <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
             <span>Sistema Online</span>
           </div>
         </div>
