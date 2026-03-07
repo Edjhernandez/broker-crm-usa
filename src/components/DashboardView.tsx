@@ -1,4 +1,17 @@
+"use client";
+
 import React from "react";
+import { Users, FileCheck2, Shield, TrendingUp } from "lucide-react";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from "recharts";
+import { cn } from "@/lib/utils";
 
 interface CardProps {
   label: string;
@@ -15,7 +28,12 @@ const Card = ({ label, value, change, trend, icon }: CardProps) => (
         {icon}
       </div>
       <div
-        className={`flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-full ${trend === "up" ? "text-emerald-700 bg-emerald-50" : "text-rose-700 bg-rose-50"}`}
+        className={cn(
+          "flex items-center gap-1 text-[13px] font-semibold px-2 py-0.5 rounded-full",
+          trend === "up"
+            ? "text-emerald-700 bg-emerald-50"
+            : "text-rose-700 bg-rose-50"
+        )}
       >
         <span>{change}</span>
         {trend === "up" ? "↑" : "↓"}
@@ -28,9 +46,15 @@ const Card = ({ label, value, change, trend, icon }: CardProps) => (
   </div>
 );
 
-const Chart = () => {
-  const bars = [40, 65, 45, 80, 55, 90, 70];
-  const max = Math.max(...bars);
+const chartData = [
+  { day: "Lun", value: 40 },
+  { day: "Mar", value: 65 },
+  { day: "Mie", value: 45 },
+  { day: "Jue", value: 80 },
+  { day: "Vie", value: 55 },
+  { day: "Sab", value: 90 },
+  { day: "Dom", value: 70 },
+];
 
   return (
     <div className="bg-[#FDFCF8] p-8 rounded-3xl border border-stone-200/60 shadow-sm">
@@ -62,9 +86,41 @@ const Chart = () => {
           </div>
         ))}
       </div>
+      <TrendingUp size={20} className="text-stone-300" />
     </div>
-  );
-};
+    <ResponsiveContainer width="100%" height={200}>
+      <BarChart data={chartData} barSize={28}>
+        <XAxis
+          dataKey="day"
+          axisLine={false}
+          tickLine={false}
+          tick={{ fontSize: 10, fontWeight: 700, fill: "#a8a29e", letterSpacing: "0.1em" }}
+        />
+        <YAxis hide />
+        <Tooltip
+          cursor={{ fill: "transparent" }}
+          contentStyle={{
+            background: "#121212",
+            border: "none",
+            borderRadius: "12px",
+            color: "#FDFCF8",
+            fontSize: "12px",
+          }}
+          itemStyle={{ color: "#FDFCF8" }}
+          labelStyle={{ color: "#a8a29e" }}
+        />
+        <Bar dataKey="value" radius={[6, 6, 0, 0]}>
+          {chartData.map((entry, index) => (
+            <Cell
+              key={`cell-${index}`}
+              fill={entry.value === Math.max(...chartData.map((d) => d.value)) ? "#065F46" : "#e7e5e4"}
+            />
+          ))}
+        </Bar>
+      </BarChart>
+    </ResponsiveContainer>
+  </div>
+);
 
 export const DashboardView = () => {
   return (
@@ -94,65 +150,21 @@ export const DashboardView = () => {
           value="1,284"
           change="+12.4%"
           trend="up"
-          icon={
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
-              <circle cx="9" cy="7" r="4" />
-              <path d="M22 21v-2a4 4 0 0 0-3-3.87" />
-              <path d="M16 3.13a4 4 0 0 1 0 7.75" />
-            </svg>
-          }
+          icon={<Users size={20} />}
         />
         <Card
           label="Firmas Pendientes"
           value="23"
           change="-4.2%"
           trend="down"
-          icon={
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 22h6a2 2 0 0 0 2-2V7l-5-5H6a2 2 0 0 0-2 2v10" />
-              <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-              <path d="m3 21 2 2 4-4" />
-            </svg>
-          }
+          icon={<FileCheck2 size={20} />}
         />
         <Card
           label="Seguros del Mes"
           value="45"
           change="+8.1%"
           trend="up"
-          icon={
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10" />
-            </svg>
-          }
+          icon={<Shield size={20} />}
         />
       </div>
 

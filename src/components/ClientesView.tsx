@@ -1,4 +1,6 @@
 import React from "react";
+import { Search, Eye, Pencil } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 const clients = [
   {
@@ -62,20 +64,10 @@ export const ClientesView = () => {
               placeholder="Buscar cliente..."
               className="pl-10 pr-4 py-2.5 bg-white border border-stone-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-[#065F46]/20 focus:border-[#065F46] transition-all w-64 shadow-sm"
             />
-            <svg
+            <Search
+              size={16}
               className="absolute left-3 top-3 text-stone-400"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <circle cx="11" cy="11" r="8" />
-              <path d="m21 21-4.3-4.3" />
-            </svg>
+            />
           </div>
         </div>
       </div>
@@ -132,13 +124,14 @@ export const ClientesView = () => {
                 </td>
                 <td className="px-8 py-5">
                   <span
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider ${
+                    className={cn(
+                      "inline-flex items-center px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider",
                       client.status === "Activo"
                         ? "bg-emerald-100 text-emerald-800"
                         : client.status === "Pendiente"
                           ? "bg-amber-100 text-amber-800"
                           : "bg-rose-100 text-rose-800"
-                    }`}
+                    )}
                   >
                     {client.status}
                   </span>

@@ -1,4 +1,5 @@
 import React from "react";
+import { FileText, Clock, Phone, Plus } from "lucide-react";
 
 const docs = [
   {
@@ -45,19 +46,7 @@ export const DocumentosView = () => {
             className="bg-[#FDFCF8] rounded-[2.5rem] border border-stone-200/50 p-8 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-500 group flex flex-col justify-between relative overflow-hidden"
           >
             <div className="absolute top-0 right-0 p-8 text-stone-100 group-hover:text-emerald-50 transition-colors">
-              <svg
-                width="48"
-                height="48"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              >
-                <path d="M15 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7Z" />
-                <path d="M14 2v4a2 2 0 0 0 2 2h4" />
-                <rect width="8" height="2" x="8" y="13" />
-                <rect width="4" height="2" x="8" y="17" />
-              </svg>
+              <FileText size={48} strokeWidth={1.5} />
             </div>
 
             <div className="relative z-10">
@@ -72,17 +61,7 @@ export const DocumentosView = () => {
               </p>
 
               <div className="flex items-center gap-3 text-stone-400 text-xs font-bold uppercase tracking-widest mb-10 bg-stone-50/50 p-3 rounded-2xl border border-stone-100">
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                >
-                  <circle cx="12" cy="12" r="10" />
-                  <path d="M12 6v6l4 2" />
-                </svg>
+                <Clock size={14} />
                 <span>Enviado: {doc.date}</span>
               </div>
             </div>
@@ -103,9 +82,7 @@ export const DocumentosView = () => {
                 strokeLinecap="round"
                 strokeLinejoin="round"
                 className="group-hover/btn:scale-110 transition-transform"
-              >
-                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
-              </svg>
+              />
               <span>Reenviar WhatsApp</span>
             </a>
           </div>
@@ -113,19 +90,7 @@ export const DocumentosView = () => {
 
         <button className="flex flex-col items-center justify-center bg-stone-50 rounded-[2.5rem] border-2 border-dashed border-stone-200 p-8 shadow-none hover:bg-white hover:border-[#065F46] hover:shadow-xl transition-all duration-500 group min-h-[380px]">
           <div className="w-16 h-16 rounded-full bg-stone-100 flex items-center justify-center text-stone-300 group-hover:bg-emerald-50 group-hover:text-[#065F46] transition-all duration-500 mb-6">
-            <svg
-              width="28"
-              height="28"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 5v14" />
-              <path d="M5 12h14" />
-            </svg>
+            <Plus size={28} />
           </div>
           <p className="text-stone-400 font-bold text-sm uppercase tracking-widest group-hover:text-stone-600 transition-colors">
             Solicitar Nuevo
