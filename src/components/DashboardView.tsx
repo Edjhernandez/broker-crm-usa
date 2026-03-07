@@ -56,14 +56,35 @@ const chartData = [
   { day: "Dom", value: 70 },
 ];
 
-const Chart = () => (
-  <div className="bg-[#FDFCF8] p-8 rounded-3xl border border-stone-200/60 shadow-sm">
-    <div className="flex items-center justify-between mb-10">
-      <div>
-        <h3 className="text-lg font-bold text-stone-900">Actividad Mensual</h3>
-        <p className="text-stone-400 text-sm mt-0.5">
-          Nuevos registros en el periodo
-        </p>
+  return (
+    <div className="bg-[#FDFCF8] p-8 rounded-3xl border border-stone-200/60 shadow-sm">
+      <div className="flex items-center justify-between mb-10">
+        <div>
+          <h3 className="text-lg font-bold text-stone-900">
+            Actividad Mensual
+          </h3>
+          <p className="text-stone-400 text-sm mt-0.5">
+            Nuevos registros en el periodo
+          </p>
+        </div>
+      </div>
+      <div className="flex items-end justify-between h-[200px] gap-4 px-2">
+        {bars.map((height, i) => (
+          <div
+            key={i}
+            className="flex-1 flex flex-col items-center gap-3 group"
+          >
+            <div
+              className="w-full bg-stone-100 rounded-lg group-hover:bg-[#065F46] transition-all duration-500 relative overflow-hidden"
+              style={{ height: `${(height / max) * 100}%` }}
+            >
+              <div className="absolute top-0 left-0 w-full h-1/2 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+            </div>
+            <span className="text-[10px] font-bold text-stone-400 uppercase tracking-widest">
+              {["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"][i]}
+            </span>
+          </div>
+        ))}
       </div>
       <TrendingUp size={20} className="text-stone-300" />
     </div>
@@ -118,7 +139,7 @@ export const DashboardView = () => {
             Fecha Actual
           </p>
           <p className="text-stone-900 font-bold bg-white px-4 py-2 rounded-xl mt-1 border border-stone-100 shadow-sm">
-            6 Mar 2026
+            {new Date().toLocaleDateString("es-MX", { day: "numeric", month: "short", year: "numeric" })}
           </p>
         </div>
       </header>

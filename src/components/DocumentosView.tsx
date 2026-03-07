@@ -66,13 +66,25 @@ export const DocumentosView = () => {
               </div>
             </div>
 
-            <button className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-bold text-sm shadow-md hover:shadow-[#25D366]/20 active:scale-[0.98] group/btn">
-              <Phone
-                size={20}
+            <a
+              href={`https://wa.me/${doc.phone.replace(/\+/g, "")}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 rounded-2xl flex items-center justify-center gap-3 transition-all duration-300 font-bold text-sm shadow-md hover:shadow-[#25D366]/20 active:scale-[0.98] group/btn"
+            >
+              <svg
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
                 className="group-hover/btn:scale-110 transition-transform"
               />
               <span>Reenviar WhatsApp</span>
-            </button>
+            </a>
           </div>
         ))}
 

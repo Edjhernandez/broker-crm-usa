@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  LayoutDashboard,
-  Users,
-  FileText,
-  Plus,
-  Settings,
-  LogOut,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import { signOut } from "next-auth/react";
 
 export type ViewType = "dashboard" | "clientes" | "documentos";
 
@@ -80,7 +72,7 @@ export const Sidebar = ({ activeView, setActiveView }: SidebarProps) => {
             <span>Ajustes</span>
           </button>
 
-          <button className="w-full text-stone-400 hover:bg-rose-500/10 hover:text-rose-400 px-4 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 group font-medium text-sm">
+          <button onClick={() => signOut()} className="w-full text-stone-400 hover:bg-rose-500/10 hover:text-rose-400 px-4 py-3 rounded-xl flex items-center gap-3 transition-all duration-300 group font-medium text-sm">
             <span className="text-stone-500 group-hover:text-rose-400">
               <LogOut size={20} />
             </span>
