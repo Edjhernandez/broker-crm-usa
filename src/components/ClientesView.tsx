@@ -27,7 +27,7 @@ const clients = [
   },
   {
     id: 4,
-    name: "Diana Lopez",
+    name: "Diana López",
     email: "diana.l@web.com",
     policy: "HLT-5521-L",
     status: "Activo",
@@ -35,7 +35,7 @@ const clients = [
   },
   {
     id: 5,
-    name: "Eduardo Gomez",
+    name: "Eduardo Gómez",
     email: "egomez@corp.mx",
     policy: "BUS-8821-G",
     status: "Activo",
