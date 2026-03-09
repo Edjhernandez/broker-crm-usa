@@ -1,41 +1,60 @@
-const LoginPage = () => {
+"use client";
+
+import { useState } from "react";
+
+export default function LoginPage() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    console.log(email, password);
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gray-100">
-      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-800">
-          CRM Seguros - Acceso
-        </h2>
-        <form className="space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Email
-            </label>
-            <input
-              type="email"
-              className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="correo@ejemplo.com"
-            />
-          </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700">
-              Contraseña
-            </label>
-            <input
-              type="password"
-              className="w-full px-4 py-2 mt-1 border rounded-md focus:ring-blue-500 focus:border-blue-500"
-              placeholder="********"
-            />
-          </div>
+    <div className="flex min-h-screen items-center justify-center bg-gray-100 p-4">
+      <form
+        onSubmit={handleSubmit}
+        className="w-full max-w-md bg-white p-8 rounded-lg shadow-md"
+      >
+        <h1 className="text-2xl font-bold mb-6 text-center text-blue-600">
+          CRM Seguros
+        </h1>
+
+        {error && (
+          <p className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
+            {error}
+          </p>
+        )}
+
+        <div className="space-y-4">
+          <input
+            type="email"
+            placeholder="Tu correo"
+            className="w-full p-2 border rounded"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+          <input
+            type="password"
+            placeholder="Tu contraseña"
+            className="w-full p-2 border rounded"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
           <button
             type="submit"
-            className="w-full py-2 font-semibold text-white bg-blue-600 rounded-md hover:bg-blue-700"
+            disabled={loading}
+            className="w-full bg-blue-600 text-white p-2 rounded font-bold hover:bg-blue-700 disabled:bg-gray-400"
           >
-            Entrar
+            {loading ? "Verificando..." : "Entrar"}
           </button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
   );
-};
-
-export default LoginPage;
+}
