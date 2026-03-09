@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "BrokerCRM | Gestión Profesional de Seguros",
+  title: "BrokerCRM",
   description:
-    "Plataforma de gestión para agentes de seguros con enfoque en eficiencia y diseño.",
+    "platform for customer management and administration, designed to streamline operations and enhance client relationships for insurance brokers.",
 };
 
 export default function RootLayout({
