@@ -1,16 +1,38 @@
 "use client";
 
 import { useState } from "react";
+import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  async function signInWithEmail() {
+    const { data, error } = await supabase.auth.signInWithPassword({
+      email: email,
+      password: password,
+    });
+
+    if (error) {
+      setError(error.message);
+    }
+    setLoading(false);
+  }
+
+  const handleSubmit = (e: React.SyntheticEvent) => {
     e.preventDefault();
-    console.log(email, password);
+    try {
+      setLoading(true);
+      setError("");
+      signInWithEmail();
+    } catch (error) {
+      setError("An unexpected error occurred. Please try again.");
+      setLoading(false);
+    }
   };
 
   return (
