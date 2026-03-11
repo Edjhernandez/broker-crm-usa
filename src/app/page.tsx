@@ -1,13 +1,14 @@
 "use client";
 
 import { supabase } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
+  const router = useRouter();
+
   const handleLogout = async () => {
     await supabase.auth.signOut();
-
-    // Forzamos recarga para que el Middleware actúe de inmediato
-    window.location.href = "/login";
+    router.push("/login");
   };
 
   return (

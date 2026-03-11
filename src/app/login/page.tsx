@@ -3,22 +3,27 @@
 import { useState } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
+import MessagePopUp from "@/components/MessagePopUp";
+import { ShieldX } from "lucide-react";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
   const router = useRouter();
 
   async function signInWithEmail() {
     const { data, error } = await supabase.auth.signInWithPassword({
+      //handle by supabase auth
       email: email,
       password: password,
     });
 
     if (error) {
       setError(error.message);
+      setIsErrorMessageVisible(true);
       setLoading(false);
       return;
     }
@@ -52,9 +57,12 @@ export default function LoginPage() {
         </h1>
 
         {error && (
-          <p className="bg-red-100 text-red-600 p-2 rounded mb-4 text-sm">
-            {error}
-          </p>
+          <MessagePopUp
+            icon={<ShieldX />}
+            message={error}
+            isVisible={isErrorMessageVisible}
+            onClose={() => setIsErrorMessageVisible(false)}
+          />
         )}
 
         <div className="space-y-4">
