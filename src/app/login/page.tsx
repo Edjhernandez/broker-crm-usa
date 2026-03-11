@@ -19,16 +19,22 @@ export default function LoginPage() {
 
     if (error) {
       setError(error.message);
+      setLoading(false);
+      return;
     }
-    setLoading(false);
+
+    if (data?.user) {
+      setLoading(false);
+      router.push("/");
+    }
   }
 
-  const handleSubmit = (e: React.SyntheticEvent) => {
+  const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     try {
       setLoading(true);
       setError("");
-      signInWithEmail();
+      await signInWithEmail();
     } catch (error) {
       setError("An unexpected error occurred. Please try again.");
       setLoading(false);
