@@ -54,8 +54,7 @@ export async function updateSession(request: NextRequest) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
 
-    url.pathname =
-      `/${routing.locales[0]}/login` || `/${routing.locales[1]}/login`;
+    url.pathname = `/${routing.defaultLocale}/login`;
     return NextResponse.redirect(url);
   }
 
