@@ -2,7 +2,7 @@
 
 import { useLocale } from "next-intl";
 // used the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
-import { usePathname, useRouter } from "./../i18n/navigation";
+import { usePathname, useRouter } from "@/i18n/navigation";
 import { useState } from "react";
 
 export default function LanguageToggle() {
@@ -14,11 +14,9 @@ export default function LanguageToggle() {
   );
 
   const changeLocale = (newLocale: "en" | "es") => {
-    const newPathName = `/${newLocale}` + pathName;
-    router.push(newPathName);
+    router.push(pathName, { locale: newLocale });
     setLanguage(newLocale);
   };
-
   return (
     <div className="flex">
       <button
