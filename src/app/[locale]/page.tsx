@@ -1,7 +1,7 @@
 "use client";
 
 import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "../../i18n/navigation"; //all navigation have to be handled by the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
 
 export default function Home() {
   const router = useRouter();
