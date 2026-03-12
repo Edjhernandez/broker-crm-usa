@@ -1,7 +1,15 @@
 import { createServerClient } from "@supabase/ssr";
-import { NextResponse, type NextRequest } from "next/server";
+import { NextResponse, NextRequest } from "next/server";
+import { routing } from "@/i18n/routing";
 
 export async function updateSession(request: NextRequest) {
+  //let pathname = request.nextUrl.pathname;
+
+  //const pathnameWithoutLocale = pathname.replace(/^\/(es|en)/, "") || "/";
+  /* const isPublicRoute =
+    pathnameWithoutLocale === "/login" ||
+    pathnameWithoutLocale.startsWith("/auth");
+ */
   let supabaseResponse = NextResponse.next({
     request,
   });
@@ -43,14 +51,27 @@ export async function updateSession(request: NextRequest) {
 
   if (
     !user &&
-    !request.nextUrl.pathname.startsWith("/login") &&
-    !request.nextUrl.pathname.startsWith("/auth")
+    !routing.locales.some((locale) =>
+      request.nextUrl.pathname.startsWith(`/${locale}/login`),
+    ) &&
+    !routing.locales.some((locale) =>
+      request.nextUrl.pathname.startsWith(`/${locale}/auth`),
+    )
   ) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
-    url.pathname = "/login";
+
+    url.pathname =
+      `/${routing.locales[0]}/login` || `/${routing.locales[1]}/login`;
     return NextResponse.redirect(url);
   }
+
+  /* if (!user && !isPublicRoute) {
+    const url = request.nextUrl.clone();
+    // Redirigimos siempre a la base, el middleware de i18n decidirá si le pone prefijo o no
+    url.pathname = `/${routing.defaultLocale}/login`;
+    return NextResponse.redirect(url);
+  } */
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
   // creating a new response object with NextResponse.next() make sure to:

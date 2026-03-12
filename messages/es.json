@@ -1,0 +1,11 @@
+{
+    "loginPage": {
+        "title": "Bienvenido a BrokerCRM",
+        "description": "Por favor, ingrese sus credenciales para acceder a su cuenta.",
+        "email": "Correo electrónico",
+        "password": "Contraseña",
+        "checking": "Verificando credenciales...",
+        "submit": "Iniciar sesión",
+        "errorMessage": "Correo electrónico o contraseña inválidos. Por favor, inténtelo de nuevo."
+    }
+}

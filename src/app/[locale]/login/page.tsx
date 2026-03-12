@@ -4,9 +4,11 @@ import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 import MessagePopUp from "@/components/MessagePopUp";
-import { ThemeToggle } from "@/components/ToggleTheme";
-import { ShieldX, Languages } from "lucide-react";
+import { ThemeToggle } from "@/components/ThemeToggle";
+import { ShieldX } from "lucide-react";
 import { useTheme } from "next-themes";
+import { useTranslations } from "next-intl";
+import LanguageToggle from "@/components/LanguageToggle";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -15,9 +17,9 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
   const { theme, setTheme } = useTheme();
-  const [language, setLanguage] = useState<"es" | "en">("es");
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
+  const t = useTranslations("loginPage");
 
   useEffect(() => {
     setMounted(true);
@@ -65,13 +67,11 @@ export default function LoginPage() {
     >
       {/* Top Bar */}
       <div className="absolute top-0 left-0 right-0 p-4 flex justify-end gap-4">
-        <button
-          onClick={() => setLanguage(language === "es" ? "en" : "es")}
-          className={`flex items-center gap-2 px-3 py-2 rounded-full transition-colors ${theme === "dark" ? "bg-gray-800 text-white hover:bg-gray-700" : "bg-white text-gray-800 hover:bg-gray-200"} shadow-sm text-sm font-medium`}
+        <div
+          className={`rounded-full shadow-sm ${theme === "dark" ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-800"}`}
         >
-          <Languages size={18} />
-          {language === "es" ? "ES" : "EN"}
-        </button>
+          <LanguageToggle />
+        </div>
         <div
           className={`rounded-full shadow-sm ${theme === "dark" ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-800"}`}
         >
@@ -86,7 +86,7 @@ export default function LoginPage() {
         <h1
           className={`text-2xl font-bold mb-6 text-center ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}
         >
-          {language === "es" ? "CRM Seguros" : "Insurance CRM"}
+          {t("title")}
         </h1>
 
         {error && (
@@ -95,14 +95,14 @@ export default function LoginPage() {
             message={error}
             isVisible={isErrorMessageVisible}
             onClose={() => setIsErrorMessageVisible(false)}
-            theme={theme as "light" | "dark" || "light"}
+            theme={(theme as "light" | "dark") || "light"}
           />
         )}
 
         <div className="space-y-4">
           <input
             type="email"
-            placeholder={language === "es" ? "Tu correo" : "Your email"}
+            placeholder={t("email")}
             className={`w-full p-2 border rounded outline-none transition-colors ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500" : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"}`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
@@ -110,7 +110,7 @@ export default function LoginPage() {
           />
           <input
             type="password"
-            placeholder={language === "es" ? "Tu contraseña" : "Your password"}
+            placeholder={t("password")}
             className={`w-full p-2 border rounded outline-none transition-colors ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500" : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"}`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
@@ -121,13 +121,7 @@ export default function LoginPage() {
             disabled={loading}
             className={`w-full p-2 rounded font-bold transition-colors ${theme === "dark" ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-600 hover:bg-blue-700"} text-white disabled:bg-gray-400`}
           >
-            {loading
-              ? language === "es"
-                ? "Verificando..."
-                : "Checking..."
-              : language === "es"
-                ? "Entrar"
-                : "Login"}
+            {loading ? t("checking") : t("submit")}
           </button>
         </div>
       </form>
