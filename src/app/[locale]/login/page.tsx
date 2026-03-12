@@ -2,21 +2,18 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter } from "../../../i18n/navigation"; //all navigation have to be handled by the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
 import MessagePopUp from "@/components/MessagePopUp";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ShieldX } from "lucide-react";
-import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
 import LanguageToggle from "@/components/LanguageToggle";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
-  const { theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const t = useTranslations("loginPage");
@@ -33,7 +30,6 @@ export default function LoginPage() {
     });
 
     if (error) {
-      setError(error.message);
       setIsErrorMessageVisible(true);
       setLoading(false);
       return;
@@ -47,14 +43,8 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    try {
-      setLoading(true);
-      setError("");
-      await signInWithEmail();
-    } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
-      setLoading(false);
-    }
+    setLoading(true);
+    await signInWithEmail();
   };
 
   if (!mounted) {
@@ -63,47 +53,30 @@ export default function LoginPage() {
 
   return (
     <div
-      className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 ${theme === "dark" ? "bg-gray-900" : "bg-gray-100"}`}
+      className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 bg-white dark:bg-gray-900`}
     >
       {/* Top Bar */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-end gap-4">
-        <div
-          className={`rounded-full shadow-sm ${theme === "dark" ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-800"}`}
-        >
-          <LanguageToggle />
-        </div>
-        <div
-          className={`rounded-full shadow-sm ${theme === "dark" ? "bg-gray-800 text-yellow-400" : "bg-white text-gray-800"}`}
-        >
-          <ThemeToggle />
-        </div>
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-end items-center gap-4">
+        <LanguageToggle />
+        <ThemeToggle />
       </div>
 
+      {/* login form */}
       <form
         onSubmit={handleSubmit}
-        className={`w-full max-w-md p-8 rounded-lg shadow-md transition-colors ${theme === "dark" ? "bg-gray-800" : "bg-white"}`}
+        className={`w-full max-w-md p-8 rounded-lg shadow-md transition-colors bg-white dark:bg-gray-800`}
       >
         <h1
-          className={`text-2xl font-bold mb-6 text-center ${theme === "dark" ? "text-blue-400" : "text-blue-600"}`}
+          className={`text-2xl font-bold mb-6 text-center text-blue-600 dark:text-blue-400`}
         >
           {t("title")}
         </h1>
-
-        {error && (
-          <MessagePopUp
-            icon={<ShieldX />}
-            message={error}
-            isVisible={isErrorMessageVisible}
-            onClose={() => setIsErrorMessageVisible(false)}
-            theme={(theme as "light" | "dark") || "light"}
-          />
-        )}
 
         <div className="space-y-4">
           <input
             type="email"
             placeholder={t("email")}
-            className={`w-full p-2 border rounded outline-none transition-colors ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500" : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"}`}
+            className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
@@ -111,7 +84,7 @@ export default function LoginPage() {
           <input
             type="password"
             placeholder={t("password")}
-            className={`w-full p-2 border rounded outline-none transition-colors ${theme === "dark" ? "bg-gray-700 border-gray-600 text-white placeholder-gray-400 focus:border-blue-500" : "bg-white border-gray-300 text-gray-900 focus:border-blue-500"}`}
+            className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -119,12 +92,20 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full p-2 rounded font-bold transition-colors ${theme === "dark" ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-600 hover:bg-blue-700"} text-white disabled:bg-gray-400`}
+            className={`w-full p-2 rounded font-bold transition-colors bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white disabled:bg-gray-400`}
           >
             {loading ? t("checking") : t("submit")}
           </button>
         </div>
       </form>
+
+      {/*  error message popup  */}
+      <MessagePopUp
+        icon={<ShieldX />}
+        message={t("errorMessage")}
+        isVisible={isErrorMessageVisible}
+        onClose={() => setIsErrorMessageVisible(false)}
+      />
     </div>
   );
 }

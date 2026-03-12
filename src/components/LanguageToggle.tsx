@@ -1,33 +1,37 @@
 "use client";
 
 import { useLocale } from "next-intl";
-//import { usePathname, useRouter } from "next/navigation";
-import { usePathname, useRouter } from "./../i18n/navigation"; // Adjust the import path as needed
+// used the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
+import { usePathname, useRouter } from "./../i18n/navigation";
+import { useState } from "react";
 
 export default function LanguageToggle() {
   const router = useRouter();
   const pathName = usePathname();
   const currentLocale = useLocale();
+  const [language, setLanguage] = useState<"en" | "es">(
+    currentLocale as "en" | "es",
+  );
 
-  const changeLocale = (newLocale: string) => {
+  const changeLocale = (newLocale: "en" | "es") => {
     const newPathName = `/${newLocale}` + pathName;
-    console.log("path:", newPathName);
     router.push(newPathName);
+    setLanguage(newLocale);
   };
 
   return (
-    <div className="flex gap-2">
+    <div className="flex">
       <button
         onClick={() => changeLocale("es")}
-        /*  disabled={currentLocale === "es"} */
-        className={`px-2 py-1 rounded ${currentLocale === "es" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-800"}`}
+        disabled={language === "es"}
+        className={`px-2 py-1 rounded ${language === "es" ? "bg-blue-600 text-white" : `text-gray-400 bg-gray-100 dark:bg-gray-800`}`}
       >
         ES
       </button>
       <button
         onClick={() => changeLocale("en")}
-        /*  disabled={currentLocale === "en"} */
-        className={`px-2 py-1 rounded ${currentLocale === "en" ? "bg-blue-600 text-white" : "bg-gray-200 dark:bg-gray-800"}`}
+        disabled={language === "en"}
+        className={`px-2 py-1 rounded ${language === "en" ? "bg-blue-600 text-white" : `text-gray-400 bg-gray-100 dark:bg-gray-800`}`}
       >
         EN
       </button>

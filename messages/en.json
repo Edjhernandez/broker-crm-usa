@@ -7,5 +7,8 @@
         "checking": "Checking credentials...",
         "submit": "Log In",
         "errorMessage": "Invalid email or password. Please try again."
+    },
+    "messagePopUp": {
+        "close": "Close"
     }
 }
