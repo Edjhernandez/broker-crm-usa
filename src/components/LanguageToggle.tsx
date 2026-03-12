@@ -14,11 +14,9 @@ export default function LanguageToggle() {
   );
 
   const changeLocale = (newLocale: "en" | "es") => {
-    const newPathName = `/${newLocale}` + pathName;
-    router.push(newPathName);
+    router.push(pathName, { locale: newLocale });
     setLanguage(newLocale);
   };
-
   return (
     <div className="flex">
       <button
