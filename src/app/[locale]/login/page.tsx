@@ -8,11 +8,15 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { ShieldX } from "lucide-react";
 import { useTranslations } from "next-intl";
 import LanguageToggle from "@/components/LanguageToggle";
+import { loginSchema } from "@/lib/schemas/auth";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const [validationError, setValidationError] = useState<{
+    [key: string]: string;
+  }>({});
   const [isErrorMessageVisible, setIsErrorMessageVisible] = useState(false);
   const [mounted, setMounted] = useState(false);
   const router = useRouter();
@@ -44,6 +48,20 @@ export default function LoginPage() {
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
     setLoading(true);
+    // login fields validation using zod schema
+    const validationResult = loginSchema.safeParse({ email, password });
+
+    if (!validationResult.success) {
+      const formattedError: { [key: string]: string } = {};
+
+      formattedError[validationResult.error.issues[0].path[0] as string] =
+        validationResult.error.issues[0].message as string;
+
+      setValidationError(formattedError);
+      setLoading(false);
+      return;
+    }
+
     await signInWithEmail();
   };
 
@@ -72,23 +90,37 @@ export default function LoginPage() {
           {t("title")}
         </h1>
 
-        <div className="space-y-4">
-          <input
-            type="email"
-            placeholder={t("email")}
-            className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
-          <input
-            type="password"
-            placeholder={t("password")}
-            className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+        <div className="space-y-2">
+          <div className="flex flex-col ">
+            <input
+              placeholder={t("email")}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+            <div className="min-h-5">
+              {validationError.email && (
+                <p className="text-red-400 text-xs mt-1">
+                  {t(validationError.email)}
+                </p>
+              )}
+            </div>
+          </div>
+          <div className="flex flex-col ">
+            <input
+              placeholder={t("password")}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+            <div className="min-h-5">
+              {validationError.password && (
+                <p className="text-red-400 text-xs mt-1">
+                  {t(validationError.password)}
+                </p>
+              )}
+            </div>
+          </div>
           <button
             type="submit"
             disabled={loading}
