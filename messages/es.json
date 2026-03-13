@@ -11,7 +11,8 @@
             "emailRequired": "Correo electrónico es obligatorio.",
             "invalidEmail": "Por favor, ingrese una dirección de correo electrónico válida.",
             "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
-            "passwordTooLong": "La contraseña no debe tener más de 8 caracteres."
+            "passwordTooLong": "La contraseña no debe tener más de 8 caracteres.",
+            "passwordRequired": "La contraseña es obligatoria."
         }
     },
     "messagePopUp": {
