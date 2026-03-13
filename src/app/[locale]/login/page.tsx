@@ -140,7 +140,7 @@ export default function LoginPage() {
 
       {/*  error message popup  */}
       <MessagePopUp
-        icon={<ShieldX />}
+        icon={<ShieldX size={50} color="var(--color-destructive)" />}
         message={t("errorMessage")}
         isVisible={isErrorMessageVisible}
         onClose={() => setIsErrorMessageVisible(false)}
