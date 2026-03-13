@@ -72,7 +72,8 @@ export default function LoginPage() {
 
   return (
     <div
-      className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 bg-white dark:bg-gray-900`}
+      className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 
+        bg-background text-foreground`}
     >
       {/* Top Bar */}
       <div className="absolute top-0 left-0 right-0 p-4 flex justify-end items-center gap-4">
@@ -82,20 +83,22 @@ export default function LoginPage() {
 
       {/* login form */}
       <form
+        noValidate
         onSubmit={handleSubmit}
-        className={`w-full max-w-md p-8 rounded-lg shadow-md transition-colors bg-white dark:bg-gray-800`}
+        className={`w-full max-w-md p-8 rounded-lg shadow-md transition-colors bg-secondary text-foreground`}
       >
-        <h1
-          className={`text-2xl font-bold mb-6 text-center text-blue-600 dark:text-blue-400`}
-        >
+        <h1 className={`text-2xl font-bold mb-6 text-center text-primary`}>
           {t("title")}
         </h1>
 
         <div className="space-y-2">
           <div className="flex flex-col ">
             <input
+              type="email"
+              autoComplete="email"
+              required
               placeholder={t("email")}
-              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-background text-foreground border-border placeholder-muted-foreground focus:border-primary ${validationError.email ? "border-destructive" : ""}`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -109,8 +112,11 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col ">
             <input
+              type="password"
+              autoComplete="current-password"
+              required
               placeholder={t("password")}
-              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-background text-foreground border-border placeholder-muted-foreground focus:border-primary ${validationError.password ? "border-destructive" : ""}`}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
@@ -125,7 +131,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full p-2 rounded font-bold transition-colors bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white disabled:bg-gray-400`}
+            className={`w-full p-2 rounded font-bold transition-colors bg-primary hover:bg-primary-hover text-primary-foreground disabled:bg-muted`}
           >
             {loading ? t("checking") : t("submit")}
           </button>
@@ -134,7 +140,7 @@ export default function LoginPage() {
 
       {/*  error message popup  */}
       <MessagePopUp
-        icon={<ShieldX />}
+        icon={<ShieldX size={50} color="var(--color-destructive)" />}
         message={t("errorMessage")}
         isVisible={isErrorMessageVisible}
         onClose={() => setIsErrorMessageVisible(false)}
