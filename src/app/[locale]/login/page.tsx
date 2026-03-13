@@ -47,7 +47,6 @@ export default function LoginPage() {
 
   const handleSubmit = async (e: React.SyntheticEvent) => {
     e.preventDefault();
-    setLoading(true);
     // login fields validation using zod schema
     const validationResult = loginSchema.safeParse({ email, password });
 
@@ -58,10 +57,12 @@ export default function LoginPage() {
         validationResult.error.issues[0].message as string;
 
       setValidationError(formattedError);
-      setLoading(false);
       return;
     }
 
+    // Clear any stale validation errors and start loading before sign-in
+    setValidationError({});
+    setLoading(true);
     await signInWithEmail();
   };
 
