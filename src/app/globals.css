@@ -28,6 +28,10 @@
 
   /* general borders */
   --color-border: var(--border);
+
+  /* accent, warnings */
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 }
 
 @layer base {
@@ -49,6 +53,9 @@
     --muted-foreground: #64748b;
 
     --border: #e2e8f0;
+
+    --accent: #f59e0b;
+    --accent-foreground: #ffffff;
   }
 
   .dark {
@@ -69,5 +76,8 @@
     --muted-foreground: #94a3b8;
 
     --border: #1e293b;
+
+    --accent: #fbbf24;
+    --accent-foreground: #0f172a;
   }
 }
