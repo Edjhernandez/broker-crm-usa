@@ -94,8 +94,11 @@ export default function LoginPage() {
         <div className="space-y-2">
           <div className="flex flex-col ">
             <input
+              type="email"
+              autoComplete="email"
+              required
               placeholder={t("email")}
-              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 ${validationError.email ? "border-red-400" : ""}`}
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
@@ -109,8 +112,11 @@ export default function LoginPage() {
           </div>
           <div className="flex flex-col ">
             <input
+              type="password"
+              autoComplete="current-password"
+              required
               placeholder={t("password")}
-              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500`}
+              className={`w-full p-2 border rounded outline-none transition-colors bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 text-gray-900 dark:text-white placeholder-gray-400 focus:border-blue-500 ${validationError.password ? "border-red-400" : ""}`}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
