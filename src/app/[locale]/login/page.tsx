@@ -82,6 +82,7 @@ export default function LoginPage() {
 
       {/* login form */}
       <form
+        noValidate
         onSubmit={handleSubmit}
         className={`w-full max-w-md p-8 rounded-lg shadow-md transition-colors bg-white dark:bg-gray-800`}
       >
