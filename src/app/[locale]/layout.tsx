@@ -26,7 +26,7 @@ export default async function RootLayout({ children, params }: Props) {
 
   return (
     <html suppressHydrationWarning={true} lang={locale}>
-      <body className="bg-white dark:bg-slate-950 text-black dark:text-white transition-colors duration-300">
+      <body className="bg-background text-foreground transition-colors duration-300">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <ThemeProvider
             attribute="class"
