@@ -6,7 +6,14 @@
         "password": "Contraseña",
         "checking": "Verificando credenciales...",
         "submit": "Iniciar sesión",
-        "errorMessage": "Correo electrónico o contraseña inválidos. Por favor, inténtelo de nuevo."
+        "errorMessage": "Correo electrónico o contraseña inválidos. Por favor, inténtelo de nuevo.",
+        "validation": {
+            "emailRequired": "Correo electrónico es obligatorio.",
+            "invalidEmail": "Por favor, ingrese una dirección de correo electrónico válida.",
+            "passwordTooShort": "La contraseña debe tener al menos 6 caracteres.",
+            "passwordTooLong": "La contraseña no debe tener más de 8 caracteres.",
+            "passwordRequired": "La contraseña es obligatoria."
+        }
     },
     "messagePopUp": {
         "close": "Cerrar"
