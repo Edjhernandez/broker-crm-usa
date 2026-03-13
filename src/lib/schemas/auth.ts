@@ -7,6 +7,7 @@ export const loginSchema = z.object({
     .email("validation.invalidEmail"),
   password: z
     .string()
+    .min(1, "validation.passwordRequired")
     .min(6, "validation.passwordTooShort")
     .max(8, "validation.passwordTooLong"),
 });
