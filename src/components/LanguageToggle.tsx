@@ -22,14 +22,14 @@ export default function LanguageToggle() {
       <button
         onClick={() => changeLocale("es")}
         disabled={language === "es"}
-        className={`px-2 py-1 rounded ${language === "es" ? "bg-primary text-background" : `text-muted-foreground bg-muted`}`}
+        className={`px-2 py-1 rounded ${language === "es" ? "bg-primary text-primary-foreground" : `text-muted-foreground bg-muted`}`}
       >
         ES
       </button>
       <button
         onClick={() => changeLocale("en")}
         disabled={language === "en"}
-        className={`px-2 py-1 rounded ${language === "en" ? "bg-primary text-background" : `text-muted-foreground bg-muted`}`}
+        className={`px-2 py-1 rounded ${language === "en" ? "bg-primary text-primary-foreground" : `text-muted-foreground bg-muted`}`}
       >
         EN
       </button>

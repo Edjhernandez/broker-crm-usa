@@ -21,7 +21,7 @@ const MessagePopUp: React.FC<MessagePopUpProps> = ({
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center bg-muted backdrop-blur-sm transition-opacity"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-muted/40 backdrop-blur-sm transition-opacity"
       onClick={onClose}
     >
       <div
@@ -35,7 +35,7 @@ const MessagePopUp: React.FC<MessagePopUpProps> = ({
         {onClose && (
           <button
             onClick={onClose}
-            className="mt-2 px-6 py-2 rounded-lg transition-colors font-medium text-background bg-primary hover:bg-primary-hover"
+            className="mt-2 px-6 py-2 rounded-lg transition-colors font-medium text-primary-foreground bg-primary hover:bg-primary-hover"
           >
             {t("close")}
           </button>
