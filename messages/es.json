@@ -15,9 +15,6 @@
             "passwordRequired": "La contraseña es obligatoria."
         }
     },
-    "messagePopUp": {
-        "close": "Cerrar"
-    },
     "dashboard": {
         "asideBar": {
             "slogan": "Gestión inteligente de corretaje",
@@ -26,7 +23,16 @@
             "pendingDocuments": "Documentos Pendientes",
             "claims": "Reclamos",
             "settings": "Configuración",
-            "logout": "Cerrar sesión"
+            "logout": "Cerrar sesión",
+            "addClient": "Agregar Cliente"
         }
+    },
+    "messagePopUp": {
+        "close": "Cerrar"
+    },
+    "confirmationPopUp": {
+        "yes": "Sí",
+        "no": "No",
+        "confirmationMessage": "¿Está seguro de que desea cerrar sesión?"
     }
 }

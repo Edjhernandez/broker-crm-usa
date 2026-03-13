@@ -15,9 +15,6 @@
             "passwordRequired": "Password is required."
         }
     },
-    "messagePopUp": {
-        "close": "Close"
-    },
     "dashboard": {
         "asideBar": {
             "slogan": "Smart Brokerage Management",
@@ -26,7 +23,16 @@
             "pendingDocuments": "Pending Documents",
             "claims": "Claims",
             "settings": "Settings",
-            "logout": "Log Out"
+            "logout": "Log Out",
+            "addClient": "Add Client"
         }
+    },
+    "messagePopUp": {
+        "close": "Close"
+    },
+    "confirmationPopUp": {
+        "yes": "Yes",
+        "no": "No",
+        "confirmationMessage": "Are you sure you want to log out?"
     }
 }

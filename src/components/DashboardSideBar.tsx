@@ -10,14 +10,18 @@ import {
   LogOut,
   LayoutGrid,
   ChartColumnIncreasing,
+  UserPlus,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { AsideBarButton } from "./AsideBarButton";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import ConfirmationPopUp from "./ConfirmationPopUp";
 
 export default function DashboardSideBar() {
   const router = useRouter();
   const t = useTranslations("dashboard.asideBar");
+  const tConfirmation = useTranslations("confirmationPopUp");
+  const [isConfirmationVisible, setIsConfirmationVisible] = useState(false);
   const asideButtons = useMemo(
     () => [
       {
@@ -66,6 +70,7 @@ export default function DashboardSideBar() {
           </div>
         </div>
 
+        {/* aside routing buttons */}
         <nav className="flex-1 px-4 space-y-1">
           {asideButtons.map((button, index) => (
             <AsideBarButton
@@ -77,21 +82,36 @@ export default function DashboardSideBar() {
           ))}
         </nav>
 
+        {/* action buttons */}
         <div className="px-4 space-y-4">
-          <button className="w-full bg-primary text-primary-foreground py-4 rounded-2xl font-semibold flex items-center justify-center gap-2 hover:bg-primary-hover shadow-lg shadow-primary/20 transition-all">
-            <Plus size={20} strokeWidth={3} />
-            <span>agregar cliente</span>
-          </button>
-
+          <AsideBarButton
+            icon={<UserPlus size={20} />}
+            label={t("addClient")}
+            href="/"
+            variant="primary"
+          />
           <button
-            onClick={handleLogout}
-            className="w-full flex items-center gap-3 px-4 py-3 text-destructive hover:bg-destructive/10 rounded-xl transition-colors font-medium"
+            onClick={() => setIsConfirmationVisible(true)}
+            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-sm 
+          bg-secondary cursor-pointer text-secondary-foreground hover:bg-secondary/80"
+      }`}
           >
             <LogOut size={20} />
             <span>{t("logout")}</span>
           </button>
         </div>
       </aside>
+
+      <ConfirmationPopUp
+        icon={<LogOut size={48} color="var(--destructive)" />}
+        message={tConfirmation("confirmationMessage")}
+        isVisible={isConfirmationVisible}
+        onClose={() => setIsConfirmationVisible(false)}
+        onConfirm={() => {
+          handleLogout();
+          setIsConfirmationVisible(false);
+        }}
+      />
     </div>
   );
 }
