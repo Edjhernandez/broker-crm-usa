@@ -16,6 +16,7 @@ const ConfirmationPopUp: React.FC<ConfirmationPopUpProps> = ({
   message,
   isVisible,
   onClose,
+  onConfirm,
 }) => {
   if (!isVisible) return null;
   const t = useTranslations("confirmationPopUp");
@@ -36,7 +37,7 @@ const ConfirmationPopUp: React.FC<ConfirmationPopUpProps> = ({
         {onClose && (
           <div className="flex gap-4">
             <button
-              onClick={onClose}
+              onClick={onConfirm}
               className="mt-2 px-6 py-2 rounded-lg transition-colors font-medium text-primary-foreground bg-primary hover:bg-primary-hover"
             >
               {t("yes")}
