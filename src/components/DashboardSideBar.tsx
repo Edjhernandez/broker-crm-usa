@@ -92,9 +92,8 @@ export default function DashboardSideBar() {
           />
           <button
             onClick={() => setIsConfirmationVisible(true)}
-            className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-sm 
-          bg-secondary cursor-pointer text-secondary-foreground hover:bg-secondary/80"
-      }`}
+            className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-medium transition-colors text-sm 
+          bg-secondary text-secondary-foreground hover:bg-secondary/50 cursor-pointer"
           >
             <LogOut size={20} />
             <span>{t("logout")}</span>

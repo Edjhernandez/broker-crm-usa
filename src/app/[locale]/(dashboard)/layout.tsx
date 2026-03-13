@@ -1,4 +1,5 @@
 import DashboardSideBar from "@/components/DashboardSideBar";
+import Header from "@/components/Header";
 
 export default function DashboardLayout({
   children,
@@ -6,12 +7,11 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen bg-background">
-      {/* Este es el que tiene la lógica de navegación */}
+    <div className="flex h-screen w-full overflow-hidden bg-background">
       <DashboardSideBar />
-
-      <div className="flex flex-col flex-1">
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+      <div className="flex-1 flex flex-col min-w-0">
+        <Header />
+        <main className="flex-1 overflow-y-auto p-4">{children}</main>
       </div>
     </div>
   );
