@@ -17,5 +17,16 @@
     },
     "messagePopUp": {
         "close": "Cerrar"
+    },
+    "dashboard": {
+        "asideBar": {
+            "slogan": "Gestión inteligente de corretaje",
+            "generalPanel": "Panel General",
+            "clients": "Clientes",
+            "pendingDocuments": "Documentos Pendientes",
+            "claims": "Reclamos",
+            "settings": "Configuración",
+            "logout": "Cerrar sesión"
+        }
     }
 }

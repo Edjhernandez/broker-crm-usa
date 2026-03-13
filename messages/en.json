@@ -17,5 +17,16 @@
     },
     "messagePopUp": {
         "close": "Close"
+    },
+    "dashboard": {
+        "asideBar": {
+            "slogan": "Smart Brokerage Management",
+            "generalPanel": "General Panel",
+            "clients": "Clients",
+            "pendingDocuments": "Pending Documents",
+            "claims": "Claims",
+            "settings": "Settings",
+            "logout": "Log Out"
+        }
     }
 }
