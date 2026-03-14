@@ -2,59 +2,54 @@ import { Check } from "lucide-react";
 
 interface StepIndicatorProps {
   currentStep: number;
-  steps: string[];
+  totalSteps: number;
 }
 
 export default function StepIndicator({
   currentStep,
-  steps,
+  totalSteps,
 }: StepIndicatorProps) {
-  return (
-    <div className="w-full py-4 mb-8">
-      <div className="flex items-center justify-between relative">
-        {/* last line */}
-        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-slate-200 -translate-y-1/2 z-0" />
+  // Create an array of step numbers based on totalSteps
+  const stepsArray = Array.from({ length: totalSteps }, (_, i) => i + 1);
 
-        {/* active progress line */}
+  return (
+    <div className="w-full py-1">
+      <div className="flex items-center justify-between relative">
+        {/* Background line (Base) */}
+        <div className="absolute top-1/2 left-0 w-full h-0.5 bg-secondary -translate-y-1/2 z-0" />
+
+        {/* Active progress line */}
         <div
-          className="absolute top-1/2 left-0 h-0.5 bg-blue-600 -translate-y-1/2 transition-all duration-500 z-0"
+          className="absolute top-1/2 left-0 h-0.5 bg-primary -translate-y-1/2 transition-all duration-500 z-0"
           style={{
-            width: `${((currentStep - 1) / (steps.length - 1)) * 100}%`,
+            width: `${((currentStep - 1) / (totalSteps - 1)) * 100}%`,
           }}
         />
 
-        {steps.map((step, index) => {
-          const stepNumber = index + 1;
+        {stepsArray.map((stepNumber) => {
           const isCompleted = currentStep > stepNumber;
           const isActive = currentStep === stepNumber;
 
           return (
             <div
-              key={step}
-              className="relative z-10 flex flex-col items-center gap-2"
+              key={stepNumber}
+              className="relative z-10 flex flex-col items-center"
             >
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center border-2 transition-all duration-300 ${
                   isCompleted
-                    ? "bg-blue-600 border-blue-600 text-white"
+                    ? "bg-primary border-primary text-primary-foreground"
                     : isActive
-                      ? "bg-white border-blue-600 text-blue-600 shadow-[0_0_0_4px_rgba(37,99,235,0.1)]"
-                      : "bg-white border-slate-300 text-slate-400"
+                      ? "bg-background border-primary text-primary shadow-[0_0_0_4px_rgba(37,99,235,0.1)]"
+                      : "bg-background border-secondary text-muted-foreground"
                 }`}
               >
                 {isCompleted ? (
                   <Check size={20} />
                 ) : (
-                  <span className="font-semibold">{stepNumber}</span>
+                  <span className="font-semibold text-sm">{stepNumber}</span>
                 )}
               </div>
-              <span
-                className={`text-[11px] font-bold uppercase tracking-tighter absolute -bottom-7 whitespace-nowrap ${
-                  isActive ? "text-blue-600" : "text-slate-500"
-                }`}
-              >
-                {step}
-              </span>
             </div>
           );
         })}

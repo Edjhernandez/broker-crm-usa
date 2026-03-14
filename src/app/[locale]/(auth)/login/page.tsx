@@ -73,10 +73,10 @@ export default function LoginPage() {
   return (
     <div
       className={`flex min-h-screen flex-col items-center justify-center p-4 transition-colors duration-300 
-        bg-background text-foreground`}
+        bg-background text-foreground max-w-300 mx-auto`}
     >
       {/* Top Bar */}
-      <div className="absolute top-0 left-0 right-0 p-4 flex justify-end items-center gap-4">
+      <div className="absolute top-0 left-0 right-0 p-4 flex justify-end items-center gap-4 max-w-300 mx-auto">
         <LanguageToggle />
         <ThemeToggle />
       </div>
@@ -131,7 +131,7 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className={`w-full p-2 rounded font-bold transition-colors bg-primary hover:bg-primary-hover text-primary-foreground disabled:bg-muted`}
+            className={`w-full p-2 rounded font-bold transition-colors bg-primary hover:bg-primary-hover text-primary-foreground disabled:bg-secondary disabled:text-secondary-foreground ${loading ? "cursor-not-allowed" : ""}`}
           >
             {loading ? t("checking") : t("submit")}
           </button>
