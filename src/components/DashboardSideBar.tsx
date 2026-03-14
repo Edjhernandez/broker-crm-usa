@@ -6,7 +6,6 @@ import {
   Users,
   FileText,
   Settings,
-  Plus,
   LogOut,
   LayoutGrid,
   ChartColumnIncreasing,
@@ -45,7 +44,7 @@ export default function DashboardSideBar() {
         href: "/",
       },
     ],
-    [t, router],
+    [t],
   );
 
   const handleLogout = async () => {
@@ -106,9 +105,12 @@ export default function DashboardSideBar() {
         message={tConfirmation("confirmationMessage")}
         isVisible={isConfirmationVisible}
         onClose={() => setIsConfirmationVisible(false)}
-        onConfirm={() => {
-          handleLogout();
-          setIsConfirmationVisible(false);
+        onConfirm={async () => {
+          try {
+            await handleLogout();
+          } finally {
+            setIsConfirmationVisible(false);
+          }
         }}
       />
     </div>

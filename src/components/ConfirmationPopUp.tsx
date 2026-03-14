@@ -7,7 +7,7 @@ interface ConfirmationPopUpProps {
   icon: React.ReactNode;
   message: string;
   isVisible: boolean;
-  onClose?: () => void;
+  onClose: () => void;
   onConfirm?: () => void;
 }
 
