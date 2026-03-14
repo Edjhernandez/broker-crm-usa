@@ -18,9 +18,10 @@ export async function getUser() {
 
   if (dbError || !profile) {
     // if there's an error fetching the profile, we can return a fallback user object
+    const fallbackDisplayName = user.email ? user.email.split("@")[0] : "User";
     return {
       id: user.id,
-      displayName: "no-name",
+      displayName: fallbackDisplayName,
       photoURL: null,
       email: user.email,
     };
