@@ -1,11 +1,6 @@
-"use client";
-
-import { useRouter } from "../../../i18n/navigation";
 import { TrendingUp, ClipboardCheck, ShieldCheck } from "lucide-react";
 
 export default function Home() {
-  const router = useRouter();
-
   return (
     <div className="flex bg-background text-foreground">
       {/* Main Content */}
