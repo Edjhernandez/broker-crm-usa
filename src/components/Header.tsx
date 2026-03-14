@@ -3,12 +3,10 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Bell, CircleUser } from "lucide-react";
 import { getUser } from "@/utils/getUser";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
 
 export default async function Header() {
   const user = await getUser();
-  const t = useTranslations("header");
-  const displayName = user?.displayName || user?.email || t("noName");
+  const displayName = user?.displayName || user?.email || "No Name";
 
   return (
     <header className="h-14 w-full px-8 flex items-center justify-between bg-background border-b border-border/50">

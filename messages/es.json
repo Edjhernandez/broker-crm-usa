@@ -34,8 +34,5 @@
         "yes": "Sí",
         "no": "No",
         "confirmationMessage": "¿Está seguro de que desea cerrar sesión?"
-    },
-    "header": {
-        "noName": "Sin Nombre"
     }
 }

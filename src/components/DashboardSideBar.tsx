@@ -86,7 +86,7 @@ export default function DashboardSideBar() {
           <AsideBarButton
             icon={<UserPlus size={20} />}
             label={t("addClient")}
-            href="/"
+            href="/addClient"
             variant="primary"
           />
           <button
