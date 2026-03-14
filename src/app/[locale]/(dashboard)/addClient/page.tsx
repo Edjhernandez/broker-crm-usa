@@ -44,7 +44,7 @@ export default function AddClientPage() {
           {t("back")}
         </button>
         <button
-          className="px-4 py-2 bg-primary text-foreground rounded w-40 cursor-pointer"
+          className="px-4 py-2 bg-primary text-primary-foreground rounded w-40 cursor-pointer"
           onClick={handleNext}
         >
           {currentStep === TOTAL_STEPS ? t("save") : t("next")}
