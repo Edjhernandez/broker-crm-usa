@@ -1,8 +1,15 @@
 import LanguageToggle from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { Bell } from "lucide-react";
+import { Bell, CircleUser } from "lucide-react";
+import { getUser } from "@/utils/getUser";
+import Image from "next/image";
+import { useTranslations } from "next-intl";
 
-export default function Header() {
+export default async function Header() {
+  const user = await getUser();
+  const t = useTranslations("header");
+  const displayName = user?.displayName || user?.email || t("noName");
+
   return (
     <header className="h-14 w-full px-8 flex items-center justify-between bg-background border-b border-border/50">
       <div className="flex items-center w-full justify-end gap-6">
@@ -13,13 +20,20 @@ export default function Header() {
         </button>
         <div className="flex items-center gap-3 border-l border-border pl-6">
           <div className="text-right">
-            <p className="text-sm font-bold leading-tight">Admin Studio</p>
-            <p className="text-[11px] text-muted-foreground uppercase font-semibold">
-              Administrador
-            </p>
+            <p className="text-sm font-bold leading-tight">{displayName}</p>
           </div>
           <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
-            AS
+            {user?.photoURL ? (
+              <Image
+                src={user.photoURL}
+                alt={displayName}
+                width={40}
+                height={40}
+                className="rounded-full"
+              />
+            ) : (
+              <CircleUser size={20} />
+            )}
           </div>
         </div>
       </div>

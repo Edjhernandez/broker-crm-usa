@@ -34,5 +34,8 @@
         "yes": "Yes",
         "no": "No",
         "confirmationMessage": "Are you sure you want to log out?"
+    },
+    "header": {
+        "noName": "No Name"
     }
 }
