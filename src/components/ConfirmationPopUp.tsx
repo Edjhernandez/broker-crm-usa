@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 
 interface ConfirmationPopUpProps {
@@ -18,8 +18,16 @@ const ConfirmationPopUp: React.FC<ConfirmationPopUpProps> = ({
   onClose,
   onConfirm,
 }) => {
-  if (!isVisible) return null;
+  const dialogRef = useRef<HTMLDivElement | null>(null);
   const t = useTranslations("confirmationPopUp");
+
+  useEffect(() => {
+    if (isVisible && dialogRef.current) {
+      dialogRef.current.focus();
+    }
+  }, [isVisible]);
+
+  if (!isVisible) return null;
 
   return (
     <div
@@ -27,13 +35,23 @@ const ConfirmationPopUp: React.FC<ConfirmationPopUpProps> = ({
       onClick={onClose}
     >
       <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-describedby="confirmation-dialog-description"
+        tabIndex={-1}
         className={`p-8 rounded-xl shadow-2xl flex flex-col items-center gap-4 max-w-sm w-full mx-4 transform transition-all  bg-background text-foreground`}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="w-full h-auto flex justify-center items-center">
           {icon}
         </div>
-        <p className="text-base font-medium text-center">{message}</p>
+        <p
+          id="confirmation-dialog-description"
+          className="text-base font-medium text-center"
+        >
+          {message}
+        </p>
         {onClose && (
           <div className="flex gap-4">
             <button
