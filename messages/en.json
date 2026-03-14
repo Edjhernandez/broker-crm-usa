@@ -17,7 +17,7 @@
     },
     "dashboard": {
         "asideBar": {
-            "slogan": "Smart Brokerage Management",
+            "slogan": "Brokerage Management",
             "generalPanel": "General Panel",
             "clients": "Clients",
             "pendingDocuments": "Pending Documents",
@@ -35,7 +35,15 @@
         "no": "No",
         "confirmationMessage": "Are you sure you want to log out?"
     },
-    "header": {
-        "noName": "No Name"
+    "addClientPage": {
+        "title": "Form to Create a New Client",
+        "step1": "Personal Information",
+        "step2": "Contact Information",
+        "step3": "Insurance Details",
+        "step4": "Review & Submit",
+        "step5": "Confirmation",
+        "back": "Back",
+        "next": "Next",
+        "save": "Save Client"
     }
 }

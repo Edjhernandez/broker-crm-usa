@@ -17,7 +17,7 @@
     },
     "dashboard": {
         "asideBar": {
-            "slogan": "Gestión inteligente de corretaje",
+            "slogan": "Gestión de corretaje",
             "generalPanel": "Panel General",
             "clients": "Clientes",
             "pendingDocuments": "Documentos Pendientes",
@@ -35,7 +35,15 @@
         "no": "No",
         "confirmationMessage": "¿Está seguro de que desea cerrar sesión?"
     },
-    "header": {
-        "noName": "Sin Nombre"
+    "addClientPage": {
+        "title": "Formulario para Crear un Nuevo Cliente",
+        "step1": "Información Personal",
+        "step2": "Información de Contacto",
+        "step3": "Detalles del Seguro",
+        "step4": "Revisar y Enviar",
+        "step5": "Confirmación",
+        "back": "Atrás",
+        "next": "Siguiente",
+        "save": "Guardar Cliente"
     }
 }
