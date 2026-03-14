@@ -43,6 +43,7 @@
         "step4": "Review & Submit",
         "step5": "Confirmation",
         "back": "Back",
-        "next": "Next"
+        "next": "Next",
+        "save": "Save Client"
     }
 }

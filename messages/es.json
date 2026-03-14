@@ -43,6 +43,7 @@
         "step4": "Revisar y Enviar",
         "step5": "Confirmación",
         "back": "Atrás",
-        "next": "Siguiente"
+        "next": "Siguiente",
+        "save": "Guardar Cliente"
     }
 }

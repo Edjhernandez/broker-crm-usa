@@ -23,14 +23,10 @@ export default function AddClientPage() {
       </div>
 
       {/* Content for adding a client here */}
-      <div className="bg-background rounded-xl border border-border shadow-sm flex-1 w-full mt-1">
+      <div className="bg-background rounded-xl border border-border shadow-sm flex-1 w-full mt-1 min-h-150">
         <div className="flex flex-col items-center justify-start h-full text-secondary-foreground">
-          {/* sections for information */}
-          <p className="text-base font-medium bg-amber-600">
-            Step {currentStep}: {t(`step${currentStep}`)}
-          </p>
-          <p className="text-sm">
-            Sección en construcción para la siguiente rama...
+          <p className="text-base font-semibold mt-1">
+            {t(`step${currentStep}`)}
           </p>
         </div>
       </div>
@@ -38,18 +34,17 @@ export default function AddClientPage() {
       {/* Navigation buttons */}
       <div className="flex justify-around w-full mt-4">
         <button
-          className="px-4 py-2 bg-secondary text-secondary-foreground rounded"
+          className="px-4 py-2 bg-secondary text-secondary-foreground rounded w-40 cursor-pointer"
           onClick={handleBack}
           disabled={currentStep === 1}
         >
           {t("back")}
         </button>
         <button
-          className="px-4 py-2 bg-primary text-foreground rounded"
+          className="px-4 py-2 bg-primary text-foreground rounded w-40 cursor-pointer"
           onClick={handleNext}
-          disabled={currentStep === 5}
         >
-          {t("next")}
+          {currentStep === 5 ? t("save") : t("next")}
         </button>
       </div>
     </div>
