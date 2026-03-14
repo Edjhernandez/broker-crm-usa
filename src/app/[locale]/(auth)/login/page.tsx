@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { supabase } from "@/lib/supabase/client";
-import { useRouter } from "../../../i18n/navigation"; //all navigation have to be handled by the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
+import { useRouter } from "@/i18n/navigation"; //all navigation have to be handled by the custom hook for pathnames from navigation.ts, which is compatible with next-intl routing
 import MessagePopUp from "@/components/MessagePopUp";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { ShieldX } from "lucide-react";
