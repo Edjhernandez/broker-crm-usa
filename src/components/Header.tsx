@@ -2,6 +2,7 @@ import LanguageToggle from "@/components/LanguageToggle";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Bell, CircleUser } from "lucide-react";
 import { getUser } from "@/utils/getUser";
+import Image from "next/image";
 
 export default async function Header() {
   const user = await getUser();
@@ -22,7 +23,7 @@ export default async function Header() {
           </div>
           <div className="w-10 h-10 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold">
             {user?.photoURL ? (
-              <img
+              <Image
                 src={user.photoURL}
                 alt={user.displayName || "no-name"}
                 width={40}
