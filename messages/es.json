@@ -34,5 +34,8 @@
         "yes": "Sí",
         "no": "No",
         "confirmationMessage": "¿Está seguro de que desea cerrar sesión?"
+    },
+    "addClientPage": {
+        "title": "Formulario para Crear un Nuevo Cliente"
     }
 }
