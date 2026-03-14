@@ -7,9 +7,12 @@ import { useState } from "react";
 export default function AddClientPage() {
   const t = useTranslations("addClientPage");
   const [currentStep, setCurrentStep] = useState(1);
+  const TOTAL_STEPS = 5;
 
-  const handleNext = () => setCurrentStep((prev) => Math.min(prev + 1, 5));
-  const handleBack = () => setCurrentStep((prev) => Math.max(prev - 1, 1));
+  const handleNext = () =>
+    setCurrentStep((prev) => Math.min(prev + 1, TOTAL_STEPS));
+  const handleBack = () =>
+    setCurrentStep((prev) => Math.max(prev - 1, 1));
 
   return (
     <div className="flex flex-col justify-center items-center">
@@ -17,7 +20,7 @@ export default function AddClientPage() {
       {/* navigation bar */}
       <div className="w-11/12 my-2">
         <StepIndicator
-          totalSteps={5} // Total number of steps in the form
+          totalSteps={TOTAL_STEPS} // Total number of steps in the form
           currentStep={currentStep}
         />
       </div>
@@ -44,7 +47,7 @@ export default function AddClientPage() {
           className="px-4 py-2 bg-primary text-foreground rounded w-40 cursor-pointer"
           onClick={handleNext}
         >
-          {currentStep === 5 ? t("save") : t("next")}
+          {currentStep === TOTAL_STEPS ? t("save") : t("next")}
         </button>
       </div>
     </div>
